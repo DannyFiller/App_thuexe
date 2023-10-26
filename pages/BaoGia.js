@@ -1,93 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, ScrollView, TextInput } from 'react-native';
 import {useClerk} from '@clerk/clerk-expo';
 
-const BaoGia = ({navigation}) => {
+import axios from 'axios';
+
+export default function BaoGia({navigation}) {
   const [isRentalPricesVisible, setIsRentalPricesVisible] = useState(false);
   const [searchDuration, setSearchDuration] = useState('');
   const [searchSeats, setSearchSeats] = useState('');
+  const [rentalPrices, setRentalPrices] = useState([]);
+  const [ngayThue, setNgayThue] = useState(0);
 
-  const clerk = useClerk();
+  useEffect(() => {
+    fetchData();
+  }, []);
   
-  const rentalPrices = [
-    {
-      vehicleType: 'Xe A',
-      modelYear: '2022',
-      accountName: 'John Doe',
-      carNumber: '123456',
-      startDate: '21h, Thứ 3, 2023-10-22',
-      endDate: '21h, Thứ 4, 2023-10-25',
-      contractInfo: {
-        carMake: 'Toyota',
-        carLicensePlate: 'XYZ 123',
-        carStatus: 'Chưa trả',
-        dailyRentalPrice: '500.000đ/ 1 ngày',
-        rentalDate: '2023-10-22',
-      },
-    },
-    {
-      vehicleType: 'Xe A',
-      modelYear: '2022',
-      accountName: 'John Doe',
-      carNumber: '123456',
-      startDate: '21h, Thứ 3, 2023-10-22',
-      endDate: '21h, Thứ 4, 2023-10-25',
-      contractInfo: {
-        carMake: 'Toyota',
-        carLicensePlate: 'XYZ 123',
-        carStatus: 'Chưa trả',
-        dailyRentalPrice: '500.000đ/ 1 ngày',
-        rentalDate: '2023-10-22',
-      },
-    },
-    {
-      vehicleType: 'Xe A',
-      modelYear: '2022',
-      accountName: 'John Doe',
-      carNumber: '123456',
-      startDate: '21h, Thứ 3, 2023-10-22',
-      endDate: '21h, Thứ 4, 2023-10-25',
-      contractInfo: {
-        carMake: 'Toyota',
-        carLicensePlate: 'XYZ 123',
-        carStatus: 'Chưa trả',
-        dailyRentalPrice: '500.000đ/ 1 ngày',
-        rentalDate: '2023-10-22',
-      },
-    },
-    {
-      vehicleType: 'Xe A',
-      modelYear: '2022',
-      accountName: 'John Doe',
-      carNumber: '123456',
-      startDate: '21h, Thứ 3, 2023-10-22',
-      endDate: '21h, Thứ 4, 2023-10-25',
-      contractInfo: {
-        carMake: 'Toyota',
-        carLicensePlate: 'XYZ 123',
-        carStatus: 'Chưa trả',
-        dailyRentalPrice: '500.000đ/ 1 ngày',
-        rentalDate: '2023-10-22',
-      },
-    },
-    {
-      vehicleType: 'Xe A',
-      modelYear: '2022',
-      accountName: 'John Doe',
-      carNumber: '123456',
-      startDate: '21h, Thứ 3, 2023-10-22',
-      endDate: '21h, Thứ 4, 2023-10-25',
-      contractInfo: {
-        carMake: 'Toyota',
-        carLicensePlate: 'XYZ 123',
-        carStatus: 'Chưa trả',
-        dailyRentalPrice: '500.000đ/ 1 ngày',
-        rentalDate: '2023-10-22',
-      },
-    },
-    // Thêm các mục giá thuê xe khác tại đây
-  ];
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("https://api-thue-xe-v2.vercel.app/BangGia");
+      setRentalPrices(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  function isNumeric(value) {
+    return !isNaN(parseFloat(value)) && isFinite(parseInt(value));
+  }
+  
 
   const toggleRentalPrices = () => {
     setIsRentalPricesVisible(!isRentalPricesVisible);
@@ -99,21 +40,24 @@ const BaoGia = ({navigation}) => {
 
   const handleExitButton = () => {
     // Xử lý khi nút "Exit" được nhấn
-    clerk.signOut();
-    navigation.navigate('Đăng Nhập');
   };
 
   const handleSearchButton = () => {
-    // Thực hiện tìm kiếm dựa trên giá trị của searchDuration và searchSeats
-    // Tải dữ liệu hoặc thực hiện xử lý tìm kiếm ở đây
+    if (searchDuration.length > 0 && isNumeric(searchDuration) && parseInt(searchDuration)>=0 && parseInt(searchDuration)<10) {
+      const ngayThueValue = (parseInt(searchDuration)-1) * 200000;
+      setNgayThue(ngayThueValue);
+    } else {
+      setNgayThue(0);
+    }
+
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Button title="Home" onPress={handleHomeButton} style={styles.homeButton} />
-        <Text style={styles.title}>Sổ xe</Text>
-        <Button title="Exit" onPress={handleExitButton} style={styles.exitButton} />
+        <Button title="Home" onPress={handleHomeButton}/>
+        <Text style={styles.title}>Báo giá thuê xe</Text>
+        <Button title="Exit" onPress={handleExitButton} />
       </View>
       <View style={styles.inputContainer}>
         <TextInput
@@ -129,36 +73,35 @@ const BaoGia = ({navigation}) => {
           onChangeText={(text) => setSearchSeats(text)}
         />
       </View>
-      <Button title="Tìm kiếm" onPress={handleSearchButton} />
-      <Button title="Hiện danh sách thuê" onPress={toggleRentalPrices} />
+      <Button title="Tìm kiếm"  onPress={handleSearchButton} />
+      <Button title="Hiện danh sách giá thuê" onPress={toggleRentalPrices} />
       <View style={styles.rentalList}>
         {isRentalPricesVisible && (
           <ScrollView>
-            {rentalPrices.map((item, index) => (
-              <View key={index} style={styles.rentalItemContainer}>
-                <View style={styles.rentalItem}>
-                  <Text style={styles.rentalItemTitle}>{item.vehicleType}</Text>
-                  <View style={styles.accountInfoContainer}>
-                    <Text style={styles.boldText}>Tài khoản: {item.accountName}</Text>
-                    <Text style={styles.boldText}>Mã số xe: {item.carNumber}</Text>
-                  </View>
-                  <View style={styles.rentalPeriodContainer}>
-                    <Text style={styles.contractInfoTitle}>Thời gian thuê:</Text>
-                    <Text style={styles.rentalTime}>Ngày nhận: {item.startDate}</Text>
-                    <Text style={styles.rentalTime}>Ngày trả: {item.endDate}</Text>
-                  </View>
-                  <View style={styles.contractInfoContainer}>
-                    <Text style={styles.contractInfoTitle}>Hợp đồng:</Text>
-                    <Text>Tên hãng xe: {item.contractInfo.carMake}</Text>
-                    <Text>Biển số xe: {item.contractInfo.carLicensePlate}</Text>
-                    <Text style={styles.statusText}>Tình trạng: {item.contractInfo.carStatus}</Text>
-                    <Text>Giá thuê trong 1 ngày: {item.contractInfo.dailyRentalPrice}</Text>
-                    <Text>Ngày thuê: {item.contractInfo.rentalDate}</Text>
-                  </View>
-
-                </View>
-              </View>
-            ))}
+            {rentalPrices.map((item, index) => {
+              if(searchSeats.length>0){
+                if (item._id.LoaiXe.includes(searchSeats)) {
+                  return (
+                    <View key={index} style={styles.rentalItem}>
+                      <Text style={styles.rentalItemTitle}>{item._id.HangXe}</Text>
+                      <Text>Giá thuê: {item._id.GiaThue + ngayThue}</Text>
+                      <Text>Số chỗ ngồi: {item._id.LoaiXe}</Text>
+                    </View>
+                  );
+                } else {
+                  return null; // Bỏ qua các dòng ko thỏa điều kiện
+                }
+              }else{
+                return(
+                  <View key={index} style={styles.rentalItem}>
+                      <Text style={styles.rentalItemTitle}>{item._id.HangXe}</Text>
+                      <Text>Giá thuê: {item._id.GiaThue + ngayThue}</Text>
+                      <Text>Số chỗ ngồi: {item._id.LoaiXe}</Text>
+                    </View>
+                )
+              }
+            }
+            )}
           </ScrollView>
         )}
       </View>
@@ -172,8 +115,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f0f0f0',
     alignItems: 'center',
+    marginTop: 13,
     padding: 20,
-    borderRadius: 10,
   },
   header: {
     flexDirection: 'row',
@@ -192,7 +135,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 20,
-    borderRadius: 20,
   },
   input: {
     flex: 1,
@@ -200,70 +142,26 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     marginBottom: 10,
-    borderRadius: 5,
   },
   rentalList: {
     width: '100%',
-    borderRadius: 20,
   },
-  rentalItemContainer: {
-    backgroundColor: '#f5f5f5',
+  rentalItem: {
     marginBottom: 20,
     borderColor: 'gray',
     borderWidth: 1,
     padding: 10,
-    borderRadius: 20,
-  },
-  rentalItem: {
-    // Styles for individual rental item go here
-  },
-  accountInfoContainer: {
-    // Styles for account information container go here
-    borderColor: 'blue',
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 20,
-  },
-  rentalPeriodContainer: {
-    // Styles for rental period container go here
-    borderColor: 'blue',
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 20,
-  },
-  rentalPeriod: {
-    // Styles for rental period information go here
-  },
-  contractInfoContainer: {
-    // Styles for contract information container go here
-    borderColor: 'blue',
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 20,
-  },
-  contractInfoTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    borderRadius: 20,
   },
   rentalItemTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    borderRadius: 20,
-  },
-  boldText: {
-    fontWeight: 'bold',
-    borderRadius: 20,
   },
   homeButton: {
     backgroundColor: 'green',
     color: 'white',
     fontWeight: 'bold',
     padding: 10,
-    borderRadius: 20,
+    borderRadius: 5,
   },
   exitButton: {
     backgroundColor: 'red',
@@ -272,10 +170,4 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
   },
-  statusText: {
-    fontWeight: 'bold',
-    color: 'red', // Chọn màu bạn muốn
-  },
 });
-
-export default BaoGia;
