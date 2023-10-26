@@ -1,20 +1,48 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { Header, createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { View,Text, FlatList, Button,StyleSheet } from 'react-native';
+import { ClerkProvider , SignedIn, SignedOut } from "@clerk/clerk-expo";
 
-export default function App() {
+
+
+//Import các trang
+import SoDatXe from './pages/SoDatXe';
+import BaoGia from './pages/BaoGia'
+import DangNhap from './pages/DangNhap';
+import DangKy from './pages/DangKy';
+import DatXe from './pages/DatXe';
+
+
+const BottomTab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+
+function App () {
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ClerkProvider  publishableKey={'pk_test_YWJvdmUtcm9vc3Rlci01MC5jbGVyay5hY2NvdW50cy5kZXYk'}>
+        <NavigationContainer> 
+            <Stack.Navigator screenOptions={{headerShown:false,headerLeft:()=> null}} initialRouteName='Đặt Xe'>
+              <Stack.Screen name='Tab' component={Tab}/>
+              <Stack.Screen name="Đăng Nhập" component={DangNhap}/>  
+              <Stack.Screen name="Đăng Ký" component={DangKy}/>  
+              <Stack.Screen name="Đặt Xe" component={DatXe} options={{title:'Đặt Xe',headerShown:true}}/>  
+            </Stack.Navigator>
+          </NavigationContainer>
+    </ClerkProvider >
   );
+};
+
+
+function Tab(){
+  return(
+   <BottomTab.Navigator screenOptions={{headerShown:true}}>
+      <BottomTab.Screen name="Sổ Đặt Xe" component={SoDatXe}/>
+      <BottomTab.Screen name="Báo Giá" component={BaoGia}/>
+   </BottomTab.Navigator>
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
