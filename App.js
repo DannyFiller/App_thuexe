@@ -13,6 +13,7 @@ import BaoGia from './pages/BaoGia'
 import DangNhap from './pages/DangNhap';
 import DangKy from './pages/DangKy';
 import DatXe from './pages/DatXe';
+import SoXe from './pages/SoXe';
 
 
 const BottomTab = createBottomTabNavigator();
@@ -26,6 +27,7 @@ function App () {
         <NavigationContainer> 
             <Stack.Navigator screenOptions={{headerShown:false,headerLeft:()=> null}} initialRouteName='Đặt Xe'>
               <Stack.Screen name='Tab' component={Tab}/>
+              <Stack.Screen name='Sổ Xe' component={SoXe}/>
               <Stack.Screen name="Đăng Nhập" component={DangNhap}/>  
               <Stack.Screen name="Đăng Ký" component={DangKy}/>  
               <Stack.Screen name="Đặt Xe" component={DatXe} options={{title:'Đặt Xe',headerShown:true}}/>  
@@ -41,6 +43,7 @@ function Tab(){
    <BottomTab.Navigator screenOptions={{headerShown:true}}>
       <BottomTab.Screen name="Sổ Đặt Xe" component={SoDatXe}/>
       <BottomTab.Screen name="Báo Giá" component={BaoGia}/>
+      <BottomTab.Screen name="Sổ xe " component={SoXe}/>
    </BottomTab.Navigator>
   )
 }

@@ -49,10 +49,41 @@ const SoDatXe = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <TextInput style={styles.timKiem} value={searchSo} onChangeText={(text) => setSearchSo(text)} placeholder='Tìm kiếm' onSubmitEditing={()=>{console.log(searchSo)}}></TextInput>
-
         <ScrollView>
-          {data.map((item,index)=>(
-            <View key={index}>
+          {data.map((item,index)=>{
+            if(searchSo.length>0){
+              if(item.LoaiXe.includes(searchSo)){
+                return(
+                  <View key={index}>
+                <View style={styles.canGia}>
+                <View style={styles.item_container}>
+                    <View style={styles.coverAnh}>       
+                      <Image style={styles.anh} source={{uri:'https://carnetwork.s3.ap-southeast-1.amazonaws.com/file/2f2e64a4463d40c8a1aa17d8bb6fac99.jpg'}}/>
+                      <View style={styles.maSo}>
+                        <Text>23D11</Text>
+                      </View>
+                      <View style={styles.bienSoXe}>
+                        <Text>34H-25367</Text> 
+                      </View>
+                      <View style={styles.loaiXe}>
+                        <Text>{item.LoaiXe}</Text>
+                      </View>
+                    </View>
+                      <View style={styles.canGia}>
+                          <Text style={styles.tenxe}>{item.TenXe}</Text>
+                          <Text style={styles.giaThue}>{item.giaThue}</Text>
+                      </View>
+                    <Text style={styles.ngayThue}>27/10/2022 -10/11/2022</Text>
+                  </View>
+              </View>
+              </View>
+                )
+              }else{
+                return null;
+              }
+            }else{
+              return(
+                <View key={index}>
               <View style={styles.canGia}>
               <View style={styles.item_container}>
                   <View style={styles.coverAnh}>       
@@ -75,7 +106,11 @@ const SoDatXe = ({ navigation }) => {
                 </View>
             </View>
             </View>
-          ))}
+              )
+            }
+              
+            
+          })}
         </ScrollView>
     </View>
   );
