@@ -61,6 +61,7 @@ const DangNhap = ({ navigation }) => {
 
           <TextInput 
           value={password}
+          autoCapitalize="none"
           placeholder="Password..."
           secureTextEntry={true}
           onChangeText={(password) => setPassword(password)} style={styles.Input}>

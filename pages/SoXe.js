@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, ScrollView, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, ScrollView, TextInput ,TouchableOpacity} from 'react-native';
 import axios from 'axios';
 
 export default function SoXe({navigation}) {
@@ -8,6 +8,19 @@ export default function SoXe({navigation}) {
   const [searchCustomer, setSearchCustomer] = useState('');
   const [searchDays, setSearchDays] = useState('');
   const [soXe,setSoXe]=useState([]);
+
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerStyle: {
+        backgroundColor: '#f4511e', //Set Header color
+      },
+      headerTintColor: '#fff', //Set Header text color
+      headerTitleStyle: {
+        fontWeight: 'bold', //Set Header text style
+      },
+    });
+  }, [navigation]);
 
 
   useEffect(()=>{
