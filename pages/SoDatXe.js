@@ -38,6 +38,7 @@ const SoDatXe = ({ navigation }) => {
 
   const [data, setData] = useState([
   ]);
+
   useEffect(() => {
     axios.get('https://api-thue-xe-ten.vercel.app/xe')
       .then(response => setData(response.data))
@@ -52,18 +53,18 @@ const SoDatXe = ({ navigation }) => {
         <ScrollView>
           {data.map((item,index)=>{
             if(searchSo.length>0){
-              if(item.LoaiXe.includes(searchSo)){
+              if(item.TenXe.includes(searchSo)){
                 return(
                   <View key={index}>
                 <View style={styles.canGia}>
                 <View style={styles.item_container}>
                     <View style={styles.coverAnh}>       
-                      <Image style={styles.anh} source={{uri:'https://carnetwork.s3.ap-southeast-1.amazonaws.com/file/2f2e64a4463d40c8a1aa17d8bb6fac99.jpg'}}/>
+                      <Image style={styles.anh} source={{uri: item.HinhAnh}}/>
                       <View style={styles.maSo}>
                         <Text>23D11</Text>
                       </View>
                       <View style={styles.bienSoXe}>
-                        <Text>34H-25367</Text> 
+                        <Text>{item.BienSoXe}</Text> 
                       </View>
                       <View style={styles.loaiXe}>
                         <Text>{item.LoaiXe}</Text>
@@ -78,7 +79,7 @@ const SoDatXe = ({ navigation }) => {
               </View>
               </View>
                 )
-              }else{
+              }else{  
                 return null;
               }
             }else{
@@ -87,12 +88,12 @@ const SoDatXe = ({ navigation }) => {
               <View style={styles.canGia}>
               <View style={styles.item_container}>
                   <View style={styles.coverAnh}>       
-                    <Image style={styles.anh} source={{uri:'https://carnetwork.s3.ap-southeast-1.amazonaws.com/file/2f2e64a4463d40c8a1aa17d8bb6fac99.jpg'}}/>
+                    <Image style={styles.anh} source={{uri:item.HinhAnh}}/>
                     <View style={styles.maSo}>
                       <Text>23D11</Text>
                     </View>
                     <View style={styles.bienSoXe}>
-                      <Text>34H-25367</Text> 
+                      <Text>{item.BienSoXe}</Text> 
                     </View>
                     <View style={styles.loaiXe}>
                       <Text>{item.LoaiXe}</Text>

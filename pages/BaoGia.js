@@ -12,6 +12,18 @@ export default function BaoGia({navigation}) {
   const [rentalPrices, setRentalPrices] = useState([]);
   const [ngayThue, setNgayThue] = useState(0);
 
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerStyle: {
+        backgroundColor: '#f4511e', //Set Header color
+      },
+      headerTintColor: '#fff', //Set Header text color
+      headerTitleStyle: {
+        fontWeight: 'bold', //Set Header text style
+      },
+    });
+  }, [navigation]);
+
   useEffect(() => {
     fetchData();
   }, []);
