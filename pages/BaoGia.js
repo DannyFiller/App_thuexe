@@ -25,6 +25,18 @@ export default function BaoGia({ navigation }) {
     });
   }, [navigation]);
 
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerStyle: {
+        backgroundColor: '#f4511e', //Set Header color
+      },
+      headerTintColor: '#fff', //Set Header text color
+      headerTitleStyle: {
+        fontWeight: 'bold', //Set Header text style
+      },
+    });
+  }, [navigation]);
+
   useEffect(() => {
     fetchData();
   }, []);

@@ -67,8 +67,8 @@ const DangKy = ({navigation}) => {
           <View>
             <TextInput style={styles.input}
               value={password}
-              placeholder="Password..."
-              placeholderTextColor="#000"
+              autoCapitalize="none"
+              placeholder="Password"
               secureTextEntry={true}
               onChangeText={(password) => setPassword(password)}
             />
