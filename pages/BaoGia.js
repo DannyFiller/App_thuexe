@@ -1,16 +1,29 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, ScrollView, TextInput } from 'react-native';
-import {useClerk} from '@clerk/clerk-expo';
+import { StyleSheet, Text, View, Button, ScrollView, TouchableOpacity } from 'react-native';
+import { Dropdown } from 'react-native-element-dropdown';
 
 import axios from 'axios';
 
-export default function BaoGia({navigation}) {
+export default function BaoGia({ navigation }) {
   const [isRentalPricesVisible, setIsRentalPricesVisible] = useState(false);
-  const [searchDuration, setSearchDuration] = useState('');
   const [searchSeats, setSearchSeats] = useState('');
   const [rentalPrices, setRentalPrices] = useState([]);
   const [ngayThue, setNgayThue] = useState(0);
+  const [LoaiXe,setloaiXe]=useState([]);
+  const [selectedValue, setSelectedValue] = useState(null);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerStyle: {
+        backgroundColor: '#f4511e',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    });
+  }, [navigation]);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -27,72 +40,47 @@ export default function BaoGia({navigation}) {
   useEffect(() => {
     fetchData();
   }, []);
-  
+
   const fetchData = async () => {
     try {
-      const response = await axios.get("https://api-thue-xe-v2.vercel.app/BangGia");
+      const response = await axios.get("https://api-thue-xe-5fum.vercel.app/BangGia");
+      const res=await axios.get("https://api-thue-xe-5fum.vercel.app/LoaiXe")
       setRentalPrices(response.data);
+      setloaiXe(res.data);
     } catch (error) {
       console.error(error);
     }
-  };
-
-  function isNumeric(value) {
-    return !isNaN(parseFloat(value)) && isFinite(parseInt(value));
   }
-  
 
   const toggleRentalPrices = () => {
     setIsRentalPricesVisible(!isRentalPricesVisible);
-  };
-
-  const handleHomeButton = () => {
-    // Xử lý khi nút "Home" được nhấn
-  };
-
-  const handleExitButton = () => {
-    // Xử lý khi nút "Exit" được nhấn
-  };
-
-  const handleSearchButton = () => {
-    if (searchDuration.length > 0 && isNumeric(searchDuration) && parseInt(searchDuration)>=0 && parseInt(searchDuration)<10) {
-      const ngayThueValue = (parseInt(searchDuration)-1) * 200000;
-      setNgayThue(ngayThueValue);
-    } else {
-      setNgayThue(0);
-    }
-
-  };
+  }
+  const getAllRentalPrices=()=>{
+    setSelectedValue(null);
+  }
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Button title="Home" onPress={handleHomeButton}/>
-        <Text style={styles.title}>Báo giá thuê xe</Text>
-        <Button title="Exit" onPress={handleExitButton} />
+      <View style={styles.sortContainer}>
+      <Dropdown 
+      style={styles.dropdown}
+      placeholderStyle={styles.placeholderStyle}
+      selectedTextStyle={styles.selectedTextStyle}
+      data={LoaiXe.map((item,index)=>({value:item,label:item}))}
+      placeholder="Chọn loại xe"
+      labelField="label"
+      valueField="value"
+      value={selectedValue}
+      onChange={item=>{setSelectedValue(item.value)}}/>
+      <TouchableOpacity onPress={toggleRentalPrices} style={styles.priceToggle}><Text>Xem</Text></TouchableOpacity>
       </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Số ngày thuê"
-          value={searchDuration}
-          onChangeText={(text) => setSearchDuration(text)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Số chỗ ngồi"
-          value={searchSeats}
-          onChangeText={(text) => setSearchSeats(text)}
-        />
-      </View>
-      <Button title="Tìm kiếm"  onPress={handleSearchButton} />
-      <Button title="Hiện danh sách giá thuê" onPress={toggleRentalPrices} />
+      <TouchableOpacity title='Xem danh sách bảng giá' onPress={getAllRentalPrices}><Text>Xem tất cả giá thuê</Text></TouchableOpacity>
       <View style={styles.rentalList}>
         {isRentalPricesVisible && (
           <ScrollView>
             {rentalPrices.map((item, index) => {
-              if(searchSeats.length>0){
-                if (item._id.LoaiXe.includes(searchSeats)) {
+              if (selectedValue !=null) {
+                if (item._id.LoaiXe==selectedValue) {
                   return (
                     <View key={index} style={styles.rentalItem}>
                       <Text style={styles.rentalItemTitle}>{item._id.HangXe}</Text>
@@ -101,28 +89,54 @@ export default function BaoGia({navigation}) {
                     </View>
                   );
                 } else {
-                  return null; // Bỏ qua các dòng ko thỏa điều kiện
+                  return null;
                 }
-              }else{
-                return(
+              } else {
+                return (
                   <View key={index} style={styles.rentalItem}>
-                      <Text style={styles.rentalItemTitle}>{item._id.HangXe}</Text>
-                      <Text>Giá thuê: {item._id.GiaThue + ngayThue}</Text>
-                      <Text>Số chỗ ngồi: {item._id.LoaiXe}</Text>
-                    </View>
-                )
+                    <Text style={styles.rentalItemTitle}>{item._id.HangXe}</Text>
+                    <Text>Giá thuê: {item._id.GiaThue + ngayThue}</Text>
+                    <Text>Số chỗ ngồi: {item._id.LoaiXe}</Text>
+                  </View>
+                );
               }
-            }
-            )}
+            })}
           </ScrollView>
         )}
       </View>
-      <StatusBar style="auto" />
+<StatusBar style="auto" />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  dropdown: {
+    marginBottom:20,
+    height: 50,
+    borderColor:'gray',
+    borderWidth: 1,
+    width:'85%',
+    borderRadius:5,
+    textAlign:'center'
+  },
+  priceToggle:{
+    height: 50,
+    width:'15%',
+    alignItems:'center',
+    justifyContent:'center',
+    marginLeft:10
+  },
+  sortContainer:{
+    width:'100%',
+    display:'flex',
+    flexDirection:'row',    
+  },
+  placeholderStyle: {
+    marginLeft:10,
+  },
+  selectedTextStyle:{
+    marginLeft:10,
+  },
   container: {
     flex: 1,
     backgroundColor: '#f0f0f0',
@@ -130,56 +144,31 @@ const styles = StyleSheet.create({
     marginTop: 13,
     padding: 20,
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    marginBottom: 20,
-  },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     color: 'blue',
     textDecorationLine: 'underline',
-  },
-  inputContainer: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     marginBottom: 20,
-  },
-  input: {
-    flex: 1,
-    borderColor: 'gray',
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 10,
   },
   rentalList: {
     width: '100%',
+    height: '80%',
+    marginTop:20,
+    borderColor:'gray',
+    borderWidth:1,
+    padding:20,
+    borderRadius:8
   },
   rentalItem: {
     marginBottom: 20,
     borderColor: 'gray',
     borderWidth: 1,
     padding: 10,
+
   },
   rentalItemTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-  },
-  homeButton: {
-    backgroundColor: 'green',
-    color: 'white',
-    fontWeight: 'bold',
-    padding: 10,
-    borderRadius: 5,
-  },
-  exitButton: {
-    backgroundColor: 'red',
-    color: 'white',
-    fontWeight: 'bold',
-    padding: 10,
-    borderRadius: 5,
   },
 });
