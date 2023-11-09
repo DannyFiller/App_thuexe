@@ -1,6 +1,6 @@
 import { SignedOut } from '@clerk/clerk-expo';
 import React, { useState,useEffect } from 'react';
-import { Image,View, Text, Button,FlatList,StyleSheet, ScrollView, TextInput, SafeAreaView, TouchableOpacity, Platform} from 'react-native';
+import { Image,View, Text, Button,FlatList,StyleSheet, ScrollView, TextInput, SafeAreaView, TouchableOpacity, Platform, Alert} from 'react-native';
 import axios from 'axios';
 import { SelectList } from 'react-native-dropdown-select-list';
 
@@ -21,7 +21,7 @@ const DatXe = ({navigation}) =>{
 
     //hàm lấy dữ liệu từ TextInput
     const HandleMaSo = (text) =>{
-        setTenTaiKhoan(text);
+        setMaSo(text);
     }
 
     const HandleTenTaiKhoan = (text) =>{
@@ -72,16 +72,22 @@ const DatXe = ({navigation}) =>{
       }, [navigation]);
 
       const testData ={
-
-        BienSoXe:bienSo
+        BienSoXe:bienSo,
+        TenTaiKhoan:tenTaiKhoan,
+        MaSo:maSo,
+        NgayThueXe:ngayThueXe,
+        NgayTraXe:ngayTraXe,
+        GiaThue : giaThueXe
       }
 
     // post dữ liệu lên api
     const DatXeHandle =() =>{
-        axios.post('https://api-thue-xe-5fum.vercel.app/LoaiXe/SoDatXe', testData)
+        axios.post('https://api-thue-xe-5fum.vercel.app/SoDatXe', testData)
         .then(response => {
           // Xử lý kết quả từ API
           console.log(response.data);
+          Alert.alert("Dặt Xe Thành Công");
+          navigation.goBack();
         })
         .catch(error => {
           // Xử lý lỗi nếu có
@@ -128,9 +134,9 @@ const DatXe = ({navigation}) =>{
                     <TextInput style={styles.giaThueXeInput} onChangeText={HandleGiaThueXe} value={giaThueXe}/>
                 </View>
                     
-                <View style={styles.dropdown}>
+                {/* <View style={styles.dropdown}>
                     <SelectList data={countries} setSelected={setSelected} />
-                </View>
+                </View> */}
 
                 {/* <View style={styles.soCho}>
                     <Text>Số chỗ</Text>
@@ -139,8 +145,8 @@ const DatXe = ({navigation}) =>{
 
                 <View style={styles.btnView}>
                     <TouchableOpacity onPress={troVeHandle} style={styles.btnTroVe}><Text>Trở về</Text></TouchableOpacity>
-                    <TouchableOpacity onPress={()=>{}} style={styles.btnDatXe}><Text>Đặt xe</Text></TouchableOpacity>
-                    <TouchableOpacity onPress={()=> {console.log(selected)}} style={styles.btnDatXe}><Text>Date</Text></TouchableOpacity>
+                    <TouchableOpacity onPress={DatXeHandle} style={styles.btnDatXe}><Text>Đặt xe</Text></TouchableOpacity>
+                    {/* <TouchableOpacity onPress={()=> {}} style={styles.btnDatXe}><Text>Date</Text></TouchableOpacity> */}
                 </View>
 
                 
@@ -152,7 +158,7 @@ const DatXe = ({navigation}) =>{
 
 const styles = StyleSheet.create({
     container:{
-        
+        justifyContent:'center'
     },
     maSoInput:{
         backgroundColor:'#fff',
