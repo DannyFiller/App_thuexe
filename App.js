@@ -25,12 +25,12 @@ function App () {
   return (
     <ClerkProvider  publishableKey={'pk_test_YWJvdmUtcm9vc3Rlci01MC5jbGVyay5hY2NvdW50cy5kZXYk'}>
         <NavigationContainer> 
-            <Stack.Navigator screenOptions={{headerShown:false,headerLeft:()=> null}} initialRouteName='Đặt Xe'>
+            <Stack.Navigator screenOptions={{headerShown:false,headerLeft:()=> null}} initialRouteName='Tab'>
               <Stack.Screen name='Tab' component={Tab}/>
               <Stack.Screen name='Sổ Xe' component={SoXe}/>
               <Stack.Screen name="Đăng Nhập" component={DangNhap}/>  
               <Stack.Screen name="Đăng Ký" component={DangKy}/>  
-              <Stack.Screen name="Thong tin xe" component={thongTinXe}/>  
+              <Stack.Screen name="Thong tin xe" component={thongTinXe} options={{headerShown:true}}/>  
               <Stack.Screen name="Đặt Xe" component={DatXe} options={{title:'Đặt Xe',headerShown:true}}/>  
             </Stack.Navigator>
           </NavigationContainer>

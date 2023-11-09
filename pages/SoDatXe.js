@@ -58,7 +58,7 @@ const SoDatXe = ({ navigation }) => {
             if(searchSo.length>0){
               if(item.TenXe.includes(searchSo)){
                 return(
-                  <TouchableOpacity key={index} onPress={thongTinXe(item.BienSoXe,item.loaiXe,item.giaThue)}>
+                  <TouchableOpacity key={index} onPress={thongTinXe(item)}>
                 <View style={styles.canGia}>
                 <View style={styles.item_container}>
                     <View style={styles.coverAnh}>       
