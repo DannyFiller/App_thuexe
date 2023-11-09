@@ -29,7 +29,7 @@ export default function SoXe({navigation}) {
 
   const fetchData=async()=>{
     try{
-      const res=await axios.get("https://api-thue-xe.vercel.app/SoXe");
+      const res=await axios.get("https://api-thue-xe-5fum.vercel.app/SoXe");
       setSoXe(res.data);
     }catch(error){
       console.error(error);
@@ -37,15 +37,8 @@ export default function SoXe({navigation}) {
   };
 
   const toggleRentalPrices = () => {
+    fetchData();
     setIsRentalPricesVisible(!isRentalPricesVisible);
-  };
-
-  const handleHomeButton = () => {
-    // Xử lý khi nút "Home" được nhấn
-  };
-
-  const handleExitButton = () => {
-    // Xử lý khi nút "Exit" được nhấn
   };
 
   const handleSearchButton = () => {
@@ -55,11 +48,6 @@ export default function SoXe({navigation}) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Button title="Home" onPress={handleHomeButton} />
-        <Text style={styles.title}>Sổ xe</Text>
-        <Button title="Exit" onPress={handleExitButton}  />
-      </View>
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
@@ -89,7 +77,7 @@ export default function SoXe({navigation}) {
                     <View style={styles.rentalItem}>
                       <Text style={styles.rentalItemTitle}>{item._id}</Text>
                       <View style={styles.accountInfoContainer}>
-                        <Text style={styles.boldText}>Tài khoản: {item.KhachHang.TenTaiKhoan}</Text>
+                        {/* <Text style={styles.boldText}>Tài khoản: {item.KhachHang.TenTaiKhoan}</Text> */}
                         <Text style={styles.boldText}>Mã số xe: {item.Xe._id}</Text>
                       </View>
                       <View style={styles.rentalPeriodContainer}>
@@ -120,7 +108,7 @@ export default function SoXe({navigation}) {
                     <View style={styles.rentalItem}>
                       <Text style={styles.rentalItemTitle}>{item._id}</Text>
                       <View style={styles.accountInfoContainer}>
-                        <Text style={styles.boldText}>Tài khoản: {item.KhachHang.TenTaiKhoan}</Text>
+                        {/* <Text style={styles.boldText}>Tài khoản: {item.KhachHang.TenTaiKhoan}</Text> */}
                         <Text style={styles.boldText}>Mã số xe: {item.Xe._id}</Text>
                       </View>
                       <View style={styles.rentalPeriodContainer}>
@@ -150,7 +138,7 @@ export default function SoXe({navigation}) {
                 <View style={styles.rentalItem}>
                   <Text style={styles.rentalItemTitle}>{item._id}</Text>
                   <View style={styles.accountInfoContainer}>
-                    <Text style={styles.boldText}>Tài khoản: {item.KhachHang.TenTaiKhoan}</Text>
+                    {/* <Text style={styles.boldText}>Tài khoản: {item.KhachHang.TenTaiKhoan}</Text> */}
                     <Text style={styles.boldText}>Mã số xe: {item.Xe._id}</Text>
                   </View>
                   <View style={styles.rentalPeriodContainer}>
@@ -219,6 +207,7 @@ const styles = StyleSheet.create({
   rentalList: {
     width: '100%',
     borderRadius: 20,
+    height:'75%'
   },
   rentalItemContainer: {
     backgroundColor: '#f5f5f5',

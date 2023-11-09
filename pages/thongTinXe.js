@@ -1,8 +1,9 @@
 import { useRoute ,useState} from "@react-navigation/native";
 import React from "react";
-import { View,Text,StyleSheet,Image, TouchableOpacity } from "react-native";
+import { View,Text,StyleSheet,Image, TouchableOpacity, Alert } from "react-native";
 import BaoGia from './BaoGia';
 import moment from 'moment';
+import axios from "axios";
 
 const ThongTinXe=({route,navigation})=>{
 
@@ -16,10 +17,29 @@ const ThongTinXe=({route,navigation})=>{
           headerTitleStyle: {fontWeight: 'bold',},
         });
       }, [navigation]);
-
+    var today = new Date();
+    var date = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
     const item=[route.params.item];
-   
-    const XacNhanDatXe=()=>{   
+    const data={
+        Xe:item[0]._id,
+        NgayThueXe:item[0].NgayThueXe!=null?item[0].NgayThueXe:0,
+        NgayTraXe:item[0].NgayTraXe!=null?item[0].NgayTraXe:0,
+        GiaThue : item[0].GiaThue!=null?item[0].GiaThue:0,
+        NgayKiHopDong: date,
+        TinhTrang: 'Chua tra'
+      };
+    const XacNhanDatXe=()=>{  
+        axios.post('https://api-thue-xe-5fum.vercel.app/SoXe', data)
+        .then(response => {
+          // Xử lý kết quả từ API
+          console.log(response.data);
+          Alert.alert("Dặt Xe Thành Công");
+          navigation.goBack();
+        })
+        .catch(error => {
+          // Xử lý lỗi nếu có
+          console.error(error);
+        });
     }
 
 
@@ -81,7 +101,7 @@ const ThongTinXe=({route,navigation})=>{
             </View>
         ))}
         <View style={{width:"90%",marginRight:35,alignItems:"center"}}>
-            <TouchableOpacity style={styles.btn} onPress={XacNhanDatXe()}>
+            <TouchableOpacity style={styles.btn} onPress={XacNhanDatXe}>
                 <Text style={{color:"white"}}>Xác Nhận</Text>
             </TouchableOpacity>
         </View>
