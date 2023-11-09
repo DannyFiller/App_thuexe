@@ -3,6 +3,7 @@ import React, { useState,useEffect } from 'react';
 import { Image,View, Text, Button,FlatList,StyleSheet, ScrollView, TextInput,TouchableOpacity} from 'react-native';
 import {useClerk} from '@clerk/clerk-expo';
 import axios from 'axios';
+import ThongTinXe from './thongTinXe';
 
 const SoDatXe = ({ navigation }) => {
 
@@ -40,12 +41,14 @@ const SoDatXe = ({ navigation }) => {
   ]);
 
   useEffect(() => {
-    axios.get('https://api-thue-xe-ten.vercel.app/xe')
+    axios.get('https://api-thue-xe-5fum.vercel.app/Xe')
       .then(response => setData(response.data))
       .catch(error => console.log(error));
   }, []);
 
-
+  const thongTinXe=(a,b,c)=>{
+    navigation.navigate("Thong tin xe",a,b,c);
+  }
 
   return (
     <View style={styles.container}>
@@ -55,7 +58,7 @@ const SoDatXe = ({ navigation }) => {
             if(searchSo.length>0){
               if(item.TenXe.includes(searchSo)){
                 return(
-                  <View key={index}>
+                  <TouchableOpacity key={index} onPress={thongTinXe(item.BienSoXe,item.loaiXe,item.giaThue)}>
                 <View style={styles.canGia}>
                 <View style={styles.item_container}>
                     <View style={styles.coverAnh}>       
@@ -77,14 +80,14 @@ const SoDatXe = ({ navigation }) => {
                     <Text style={styles.ngayThue}>27/10/2022 -10/11/2022</Text>
                   </View>
               </View>
-              </View>
+              </TouchableOpacity>
                 )
               }else{  
                 return null;
               }
             }else{
               return(
-                <View key={index}>
+              <TouchableOpacity key={index} onPress={()=>navigation.navigate('Thong tin xe',{item})}>
               <View style={styles.canGia}>
               <View style={styles.item_container}>
                   <View style={styles.coverAnh}>       
@@ -106,7 +109,7 @@ const SoDatXe = ({ navigation }) => {
                   <Text style={styles.ngayThue}>27/10/2022 -10/11/2022</Text>
                 </View>
             </View>
-            </View>
+            </TouchableOpacity>
               )
             }
               

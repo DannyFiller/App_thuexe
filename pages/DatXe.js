@@ -78,7 +78,7 @@ const DatXe = ({navigation}) =>{
 
     // post dữ liệu lên api
     const DatXeHandle =() =>{
-        axios.post('https://api-thue-xe-ten.vercel.app/SoDatXe', testData)
+        axios.post('https://api-thue-xe-5fum.vercel.app/LoaiXe/SoDatXe', testData)
         .then(response => {
           // Xử lý kết quả từ API
           console.log(response.data);
