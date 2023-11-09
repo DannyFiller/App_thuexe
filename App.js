@@ -14,7 +14,7 @@ import DangNhap from './pages/DangNhap';
 import DangKy from './pages/DangKy';
 import DatXe from './pages/DatXe';
 import SoXe from './pages/SoXe';
-
+import thongTinXe from './pages/thongTinXe';
 
 const BottomTab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -30,6 +30,7 @@ function App () {
               <Stack.Screen name='Sổ Xe' component={SoXe}/>
               <Stack.Screen name="Đăng Nhập" component={DangNhap}/>  
               <Stack.Screen name="Đăng Ký" component={DangKy}/>  
+              <Stack.Screen name="Thong tin xe" component={thongTinXe}/>  
               <Stack.Screen name="Đặt Xe" component={DatXe} options={{title:'Đặt Xe',headerShown:true}}/>  
             </Stack.Navigator>
           </NavigationContainer>
