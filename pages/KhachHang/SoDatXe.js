@@ -3,9 +3,9 @@ import React, { useState,useEffect } from 'react';
 import { Image,View, Text, Button,FlatList,StyleSheet, ScrollView, TextInput,TouchableOpacity} from 'react-native';
 import {useClerk} from '@clerk/clerk-expo';
 import axios from 'axios';
-import ThongTinXe from './thongTinDatXe';
+import ThongTinXe from './thongTinXe';
 
-const SoXe = ({ navigation }) => {
+const DanhSachXe = ({ navigation }) => {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -41,17 +41,10 @@ const SoXe = ({ navigation }) => {
   ]);
 
   useEffect(() => {
-    fetchData();
-  }, [data]);
-
-  const fetchData =async()=>{
-    try {
-      const response = await axios.get('https://api-thue-xe-5fum.vercel.app/SoDatXe');
-      setData(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+    axios.get('https://api-thue-xe-5fum.vercel.app/Xe')
+      .then(response => setData(response.data))
+      .catch(error => console.log(error));
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -59,60 +52,60 @@ const SoXe = ({ navigation }) => {
         <ScrollView>
           {data.map((item,index)=>{
             if(searchSo.length>0){
-              if(item.IDXe.TenXe.includes(searchSo)||item.IDKH.SoDienThoai.includes(searchSo)){
+              if(item.TenXe.includes(searchSo)){
                 return(
-                  <TouchableOpacity key={index} onPress={()=>navigation.navigate('Thong tin so dat xe',{item})}>
-                  <View style={styles.canGia}>
-                  <View style={styles.item_container}>
-                      <View style={styles.coverAnh}>       
-                        <Image style={styles.anh} source={{uri: item.IDXe.HinhAnh}}/>
-                        <View style={styles.maSo}>
-                          <Text>{item.IDXe.TenXe}</Text>
-                        </View>
-                        <View style={styles.bienSoXe}>
-                          <Text>{item.IDXe.BienSoXe}</Text> 
-                        </View>
-                        <View style={styles.loaiXe}>
-                          <Text>{item.IDXe.LoaiXe}</Text>
-                        </View>
+                  <TouchableOpacity key={index} onPress={()=>navigation.navigate('Thong tin xe',{item})}>
+                <View style={styles.canGia}>
+                <View style={styles.item_container}>
+                    <View style={styles.coverAnh}>       
+                      <Image style={styles.anh} source={{uri: item.HinhAnh}}/>
+                      <View style={styles.maSo}>
+                        <Text>23D11</Text>
                       </View>
-                        <View style={styles.canGia}>
-                            <Text style={styles.tenxe}>Tên: {item.IDKH.Ten}</Text>
-                            <Text style={styles.giaThue}>Số điện thoại: {item.IDKH.SoDienThoai}</Text>
-                        </View>
-                      <Text style={styles.ngayThue}>27/10/2022 -10/11/2022</Text>
+                      <View style={styles.bienSoXe}>
+                        <Text>{item.BienSoXe}</Text> 
+                      </View>
+                      <View style={styles.loaiXe}>
+                        <Text>{item.LoaiXe}</Text>
+                      </View>
                     </View>
-                </View>
-                </TouchableOpacity>
+                      <View style={styles.canGia}>
+                          <Text style={styles.tenxe}>{item.TenXe}</Text>
+                          <Text style={styles.giaThue}>{item.giaThue}</Text>
+                      </View>
+                    <Text style={styles.ngayThue}>27/10/2022 -10/11/2022</Text>
+                  </View>
+              </View>
+              </TouchableOpacity>
                 )
               }else{  
                 return null;
               }
             }else{
               return(
-                <TouchableOpacity key={index} onPress={()=>navigation.navigate('Thong tin so dat xe',{item})}>
-                <View style={styles.canGia}>
-                <View style={styles.item_container}>
-                    <View style={styles.coverAnh}>       
-                      <Image style={styles.anh} source={{uri: item.IDXe.HinhAnh}}/>
-                      <View style={styles.maSo}>
-                        <Text>{item.IDXe.TenXe}</Text>
-                      </View>
-                      <View style={styles.bienSoXe}>
-                        <Text>{item.IDXe.BienSoXe}</Text> 
-                      </View>
-                      <View style={styles.loaiXe}>
-                        <Text>{item.IDXe.LoaiXe}</Text>
-                      </View>
+              <TouchableOpacity key={index} onPress={()=>navigation.navigate('Thong tin xe',{item})}>
+              <View style={styles.canGia}>
+              <View style={styles.item_container}>
+                  <View style={styles.coverAnh}>       
+                    <Image style={styles.anh} source={{uri:item.HinhAnh}}/>
+                    <View style={styles.maSo}>
+                      <Text>23D11</Text>
                     </View>
-                      <View style={styles.canGia}>
-                          <Text style={styles.tenxe}>Tên: {item.IDKH.Ten}</Text>
-                          <Text style={styles.giaThue}>Số điện thoại: {item.IDKH.SoDienThoai}</Text>
-                      </View>
-                    <Text style={styles.ngayThue}>27/10/2022 -10/11/2022</Text>
+                    <View style={styles.bienSoXe}>
+                      <Text>{item.BienSoXe}</Text> 
+                    </View>
+                    <View style={styles.loaiXe}>
+                      <Text>{item.LoaiXe}</Text>
+                    </View>
                   </View>
-              </View>
-              </TouchableOpacity>
+                    <View style={styles.canGia}>
+                        <Text style={styles.tenxe}>{item.TenXe}</Text>
+                        <Text style={styles.giaThue}>{item.giaThue}</Text>
+                    </View>
+                  <Text style={styles.ngayThue}>27/10/2022 -10/11/2022</Text>
+                </View>
+            </View>
+            </TouchableOpacity>
               )
             }
               
@@ -198,7 +191,6 @@ const styles = StyleSheet.create({
     right:0,
   },
   timKiem:{
-    width:320,
     backgroundColor:'#fff',
     marginTop:10,
     marginBottom:10,
@@ -208,4 +200,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SoXe;
+export default DanhSachXe;
