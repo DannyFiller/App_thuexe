@@ -3,7 +3,7 @@ import React, { useState,useEffect } from 'react';
 import { Image,View, Text, Button,FlatList,StyleSheet, ScrollView, TextInput,TouchableOpacity} from 'react-native';
 import {useClerk} from '@clerk/clerk-expo';
 import axios from 'axios';
-import ThongTinXe from './thongTinDatXe';
+
 
 const SoXe = ({ navigation }) => {
 
@@ -77,9 +77,9 @@ const SoXe = ({ navigation }) => {
                         </View>
                       </View>
                         <View style={styles.canGia}>
-                            <Text style={styles.tenxe}>Tên: {item.IDKH.Ten}</Text>
-                            <Text style={styles.giaThue}>Số điện thoại: {item.IDKH.SoDienThoai}</Text>
+                            <Text style={styles.tenxe}>Tên: {item.IDKH.TenKH}</Text>     
                         </View>
+                        <Text style={styles.ngayThue}>Số điện thoại: {item.IDKH.SoDienThoai}</Text>
                       <Text style={styles.ngayThue}>27/10/2022 -10/11/2022</Text>
                     </View>
                 </View>
@@ -106,9 +106,9 @@ const SoXe = ({ navigation }) => {
                       </View>
                     </View>
                       <View style={styles.canGia}>
-                          <Text style={styles.tenxe}>Tên: {item.IDKH.Ten}</Text>
-                          <Text style={styles.giaThue}>Số điện thoại: {item.IDKH.SoDienThoai}</Text>
+                          <Text style={styles.tenxe}>Tên: {item.IDKH.TenKH}</Text>
                       </View>
+                      <Text style={styles.ngayThue}>Số điện thoại: {item.IDKH.SoDienThoai}</Text>
                     <Text style={styles.ngayThue}>27/10/2022 -10/11/2022</Text>
                   </View>
               </View>

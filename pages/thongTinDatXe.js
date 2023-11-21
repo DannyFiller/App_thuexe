@@ -1,10 +1,10 @@
 import { useRoute } from "@react-navigation/native";
 import React, { useEffect,useState } from "react";
-import { View,Text,StyleSheet,Image, TouchableOpacity, Alert } from "react-native";
+import { View,Text,StyleSheet,Image, TouchableOpacity, Alert,ActivityIndicator } from "react-native";
 import BaoGia from './BaoGia';
 import moment from 'moment';
 import axios from "axios";
-import SoXe from "./SoDatXe";
+
 
 
 const ThongTinXe=({route,navigation})=>{
@@ -40,7 +40,7 @@ const ThongTinXe=({route,navigation})=>{
         .then(response => {
           // Xử lý kết quả từ API
           console.log(response.data);
-          setLoading(false);
+          setLoading(false)
           Alert.alert("Dặt Xe Thành Công");
           navigation.goBack();
         })
@@ -49,7 +49,6 @@ const ThongTinXe=({route,navigation})=>{
           console.error(error);
         });
     }
-
 
     //trừ 2 ngày 
     // chưa xài dc 
@@ -91,7 +90,7 @@ const ThongTinXe=({route,navigation})=>{
                         </View>
                         <View style={styles.row_thongtin}>
                             <Text style={styles.label}>Tên Khách Hàng : </Text>
-                            <Text>{item[0].IDKH.TenTaiKhoan}</Text>
+                            <Text>{item[0].IDKH.TenKH}</Text>
                         </View>
                         <View style={styles.row_thongtin}>
                             <Text style={styles.label}>Số điện thoại khách hàng: </Text>
