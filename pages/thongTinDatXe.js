@@ -1,10 +1,11 @@
 import { useRoute } from "@react-navigation/native";
 import React, { useEffect,useState } from "react";
-import { View,Text,StyleSheet,Image, TouchableOpacity, Alert } from "react-native";
+import { View,Text,StyleSheet,Image, TouchableOpacity, Alert ,ActivityIndicator} from "react-native";
 import BaoGia from './BaoGia';
 import moment from 'moment';
 import axios from "axios";
 import SoXe from "./SoDatXe";
+import SuaSoDatXe from "./SuaSoDatXe";
 
 
 const ThongTinXe=({route,navigation})=>{
@@ -23,6 +24,7 @@ const ThongTinXe=({route,navigation})=>{
     var today = new Date();
     var date = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
     const item=[route.params.item];
+
     const KhachHang={
         TenTaiKhoan:item[0].KhachHang
     }
@@ -50,6 +52,25 @@ const ThongTinXe=({route,navigation})=>{
         });
     }
 
+    const HuyDatXe=()=>{
+        setLoading(true);
+        axios.delete('https://api-thue-xe-5fum.vercel.app/SoDatXe/'+item[0]._id)
+        .then(response => {
+            // Xử lý kết quả từ API
+            setLoading(false);
+            Alert.alert("Xóa Thành Công");
+            navigation.goBack();
+          })
+          .catch(error => {
+            // Xử lý lỗi nếu có
+            console.error(error);
+          });
+
+    }
+
+    const HandleSuaSoDatXe = () => {
+        navigation.navigate('Sửa Sổ Đặt Xe',{item});
+    }
 
     //trừ 2 ngày 
     // chưa xài dc 
@@ -115,15 +136,40 @@ const ThongTinXe=({route,navigation})=>{
                         </View>
                 </View>
             </View>
-        <View style={{width:"90%",marginRight:35,alignItems:"center"}}>
-        {loading?(
-             <ActivityIndicator />
-           ):(
-            <TouchableOpacity style={styles.btn} onPress={XacNhanDatXe}>
-                <Text style={{color:"white"}}>Xác nhận trả xe</Text>
-            </TouchableOpacity> 
-           )}
-        </View>
+
+            <View style={{display:"flex",flexDirection:"row",justifyContent:"space-around",marginRight:5}}>
+                <View style={{marginRight:35}}>
+                    {loading?(
+                        <ActivityIndicator />
+                    ):(
+                        <TouchableOpacity style={styles.btn} onPress={XacNhanDatXe}>
+                            <Text style={{color:"white"}}>Xác nhận</Text>
+                        </TouchableOpacity> 
+                    )}
+                </View>
+
+                <View style={{marginRight:35}}>
+                    {loading?(
+                        <ActivityIndicator />
+                    ):(
+                        <TouchableOpacity style={styles.btn} onPress={HuyDatXe}>
+                            <Text style={{color:"white"}}>Hủy</Text>
+                        </TouchableOpacity> 
+                    )}
+                </View>
+
+                
+                <View style={{marginRight:35,alignItems:"center"}}>
+                    {loading?(
+                        <ActivityIndicator />
+                    ):(
+                        <TouchableOpacity style={styles.btn} onPress={HandleSuaSoDatXe}>
+                            <Text style={{color:"white"}}>Sửa</Text>
+                        </TouchableOpacity> 
+                    )}
+                </View>
+            </View>
+        
         </View>
         
     )
