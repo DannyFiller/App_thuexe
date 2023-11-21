@@ -3,9 +3,9 @@ import React, { useState,useEffect } from 'react';
 import { Image,View, Text, Button,FlatList,StyleSheet, ScrollView, TextInput,TouchableOpacity} from 'react-native';
 import {useClerk} from '@clerk/clerk-expo';
 import axios from 'axios';
-import ThongTinXe from './thongTinDatXe';
 
-const SoXe = ({ navigation }) => {
+
+const SoDatXe = ({ navigation }) => {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -208,4 +208,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SoXe;
+export default SoDatXe;

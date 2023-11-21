@@ -27,6 +27,7 @@ const DangNhap = ({ navigation }) => {
       // This indicaimport { StylisElement } from './../node_modules/@emotion/cache/dist/declarations/types/index.d';tes the user is signed in
       await setActive({ session: completeSignIn.createdSessionId });
       navigation.navigate('Tab');
+      console.log()
 
     } catch (err) {
       alert(err.errors[0].message);
