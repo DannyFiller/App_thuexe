@@ -128,11 +128,11 @@ const ThongTinXe=({route,navigation})=>{
                         </View>
                         <View style={styles.row_thongtin}>
                             <Text style={styles.label}>Chi Phí Thuê 1 Ngày : </Text>
-                            <Text>{item[0].GiaThue}</Text>
+                            <Text>{item[0].IDXe.SoTien}</Text>
                         </View>
                         <View style={styles.row_thongtin}>
                             <Text style={styles.label}>Tổng Chi Phí Thuê Xe : </Text>
-                            <Text>{differenceInDays}</Text>
+                            <Text>{differenceInDays*item[0].IDXe.SoTien}</Text>
                         </View>
                 </View>
             </View>
