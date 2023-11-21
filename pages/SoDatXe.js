@@ -3,6 +3,8 @@ import React, { useState,useEffect } from 'react';
 import { Image,View, Text, Button,FlatList,StyleSheet, ScrollView, TextInput,TouchableOpacity} from 'react-native';
 import {useClerk} from '@clerk/clerk-expo';
 import axios from 'axios';
+import moment from 'moment';
+
 
 
 const SoDatXe = ({ navigation }) => {
@@ -77,10 +79,10 @@ const SoDatXe = ({ navigation }) => {
                         </View>
                       </View>
                         <View style={styles.canGia}>
-                            <Text style={styles.tenxe}>Tên: {item.IDKH.Ten}</Text>
-                            <Text style={styles.giaThue}>Số điện thoại: {item.IDKH.SoDienThoai}</Text>
+                            <Text style={styles.tenxe}>Tên: {item.IDKH.TenKH}</Text>     
                         </View>
-                      <Text style={styles.ngayThue}>27/10/2022 -10/11/2022</Text>
+                        <Text style={styles.ngayThue}>Số điện thoại: {item.IDKH.SoDienThoai}</Text>
+                        <Text style={styles.ngayThue}>{moment(new Date(item.NgayBatDau)).format("DD/MM/yyyy")} - {moment(new Date(item.NgayKetThuc)).format("DD/MM/yyyy")}</Text>
                     </View>
                 </View>
                 </TouchableOpacity>
@@ -106,10 +108,10 @@ const SoDatXe = ({ navigation }) => {
                       </View>
                     </View>
                       <View style={styles.canGia}>
-                          <Text style={styles.tenxe}>Tên: {item.IDKH.Ten}</Text>
-                          <Text style={styles.giaThue}>Số điện thoại: {item.IDKH.SoDienThoai}</Text>
+                          <Text style={styles.tenxe}>Tên: {item.IDKH.TenKH}</Text>
                       </View>
-                    <Text style={styles.ngayThue}>27/10/2022 -10/11/2022</Text>
+                      <Text style={styles.ngayThue}>Số điện thoại: {item.IDKH.SoDienThoai}</Text>
+                      <Text style={styles.ngayThue}>{moment(new Date(item.NgayBatDau)).format("DD/MM/yyyy")} - {moment(new Date(item.NgayKetThuc)).format("DD/MM/yyyy")}</Text>
                   </View>
               </View>
               </TouchableOpacity>

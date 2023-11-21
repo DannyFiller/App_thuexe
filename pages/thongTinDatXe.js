@@ -42,7 +42,7 @@ const ThongTinXe=({route,navigation})=>{
         .then(response => {
           // Xử lý kết quả từ API
           console.log(response.data);
-          setLoading(false);
+          setLoading(false)
           Alert.alert("Dặt Xe Thành Công");
           navigation.goBack();
         })
@@ -112,7 +112,7 @@ const ThongTinXe=({route,navigation})=>{
                         </View>
                         <View style={styles.row_thongtin}>
                             <Text style={styles.label}>Tên Khách Hàng : </Text>
-                            <Text>{item[0].IDKH.TenTaiKhoan}</Text>
+                            <Text>{item[0].IDKH.TenKH}</Text>
                         </View>
                         <View style={styles.row_thongtin}>
                             <Text style={styles.label}>Số điện thoại khách hàng: </Text>
@@ -128,11 +128,11 @@ const ThongTinXe=({route,navigation})=>{
                         </View>
                         <View style={styles.row_thongtin}>
                             <Text style={styles.label}>Chi Phí Thuê 1 Ngày : </Text>
-                            <Text>{item[0].GiaThue}</Text>
+                            <Text>{item[0].IDXe.SoTien}</Text>
                         </View>
                         <View style={styles.row_thongtin}>
                             <Text style={styles.label}>Tổng Chi Phí Thuê Xe : </Text>
-                            <Text>{differenceInDays}</Text>
+                            <Text>{differenceInDays*item[0].IDXe.SoTien}</Text>
                         </View>
                 </View>
             </View>

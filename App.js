@@ -16,6 +16,9 @@ import DatXe from './pages/DatXe';
 import SoXe from './pages/SoXe';
 import thongTinDatXe from './pages/thongTinDatXe';
 import thongTinSoXe from './pages/ThongTinSoXe';
+import LichSuDatXe from './pages/KhachHang/LichSuDatXe';
+import ThongTinDangNhap from './pages/ThongTinDangNhap';
+import CapNhatThongTinKhachHang from './pages/KhachHang/CapNhatThongTinKhachHang';
 import SuaSoDatXe from './pages/SuaSoDatXe';
 
 const BottomTab = createBottomTabNavigator();
@@ -35,7 +38,9 @@ function App () {
               <Stack.Screen name="Đăng Ký" component={DangKy}/>  
               <Stack.Screen name="Thong tin so dat xe" component={thongTinDatXe} options={{headerShown:true}}/>  
               <Stack.Screen name="Thong tin so xe" component={thongTinSoXe} options={{headerShown:true}}/>  
-              <Stack.Screen name="Đặt Xe" component={DatXe} options={{title:'Đặt Xe',headerShown:true}}/> 
+              <Stack.Screen name="Đặt Xe" component={DatXe} options={{title:'Đặt Xe',headerShown:true}}/>  
+              <Stack.Screen name="Thong tin dang nhap" component={ThongTinDangNhap} options={{title:'Thông tin',headerShown:true}}/>  
+              <Stack.Screen name="Cap nhat khach hang" component={CapNhatThongTinKhachHang} options={{title:'Thông tin',headerShown:true}}/>  
               <Stack.Screen name="Sửa Sổ Đặt Xe" component={SuaSoDatXe} options={{title:'Sửa Sổ Đặt Xe',headerShown:true}}/>  
             </Stack.Navigator>
           </NavigationContainer>
@@ -48,8 +53,10 @@ function Tab(){
   return(
    <BottomTab.Navigator screenOptions={{headerShown:true}}>
       <BottomTab.Screen name="Sổ Đặt Xe" component={SoDatXe}/>
+      {/* <BottomTab.Screen name="Lịch sử" component={LichSuDatXe}/> */}
       <BottomTab.Screen name="Báo Giá" component={BaoGia}/>
       <BottomTab.Screen name="Sổ xe " component={SoXe}/>
+      <BottomTab.Screen name="Thông tin " component={ThongTinDangNhap}/>
    </BottomTab.Navigator>
   )
 }
