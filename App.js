@@ -14,7 +14,8 @@ import DangNhap from './pages/DangNhap';
 import DangKy from './pages/DangKy';
 import DatXe from './pages/DatXe';
 import SoXe from './pages/SoXe';
-import thongTinXe from './pages/thongTinXe';
+import thongTinDatXe from './pages/thongTinDatXe';
+import thongTinSoXe from './pages/ThongTinSoXe';
 
 const BottomTab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -28,9 +29,11 @@ function App () {
             <Stack.Navigator screenOptions={{headerShown:false,headerLeft:()=> null}} initialRouteName='Tab'>
               <Stack.Screen name='Tab' component={Tab}/>
               <Stack.Screen name='Sổ Xe' component={SoXe}/>
+              <Stack.Screen name='Sổ Đặt Xe' component={SoDatXe}/>
               <Stack.Screen name="Đăng Nhập" component={DangNhap}/>  
               <Stack.Screen name="Đăng Ký" component={DangKy}/>  
-              <Stack.Screen name="Thong tin xe" component={thongTinXe} options={{headerShown:true}}/>  
+              <Stack.Screen name="Thong tin so dat xe" component={thongTinDatXe} options={{headerShown:true}}/>  
+              <Stack.Screen name="Thong tin so xe" component={thongTinSoXe} options={{headerShown:true}}/>  
               <Stack.Screen name="Đặt Xe" component={DatXe} options={{title:'Đặt Xe',headerShown:true}}/>  
             </Stack.Navigator>
           </NavigationContainer>

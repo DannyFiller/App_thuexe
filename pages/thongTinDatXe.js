@@ -1,12 +1,14 @@
-import { useRoute ,useState} from "@react-navigation/native";
-import React from "react";
+import { useRoute } from "@react-navigation/native";
+import React, { useEffect,useState } from "react";
 import { View,Text,StyleSheet,Image, TouchableOpacity, Alert } from "react-native";
 import BaoGia from './BaoGia';
 import moment from 'moment';
 import axios from "axios";
+import SoXe from "./SoDatXe";
+
 
 const ThongTinXe=({route,navigation})=>{
-
+   
     React.useLayoutEffect(() => {
         navigation.setOptions({
           title: 'Chi Tiết', 
@@ -17,22 +19,28 @@ const ThongTinXe=({route,navigation})=>{
           headerTitleStyle: {fontWeight: 'bold',},
         });
       }, [navigation]);
+    
     var today = new Date();
     var date = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
     const item=[route.params.item];
+    const KhachHang={
+        TenTaiKhoan:item[0].KhachHang
+    }
     const data={
-        Xe:item[0]._id,
-        NgayThueXe:item[0].NgayThueXe!=null?item[0].NgayThueXe:0,
-        NgayTraXe:item[0].NgayTraXe!=null?item[0].NgayTraXe:0,
-        GiaThue : item[0].GiaThue!=null?item[0].GiaThue:0,
-        NgayKiHopDong: date,
-        TinhTrang: 'Chua tra'
+        TinhTrang: 'Đã xác nhận'
       };
+    const dataXe={
+        TinhTrang: 'Đang được thuê'
+    }
+    const [loading,setLoading]=useState(false);
     const XacNhanDatXe=()=>{  
-        axios.post('https://api-thue-xe-5fum.vercel.app/SoXe', data)
+        setLoading(true);
+        axios.put('https://api-thue-xe-5fum.vercel.app/Xe/'+item[0].IDXe._id, dataXe)
+        axios.put('https://api-thue-xe-5fum.vercel.app/SoXe/'+item[0]._id, data)
         .then(response => {
           // Xử lý kết quả từ API
           console.log(response.data);
+          setLoading(false);
           Alert.alert("Dặt Xe Thành Công");
           navigation.goBack();
         })
@@ -51,24 +59,28 @@ const ThongTinXe=({route,navigation})=>{
     console.log(differenceInDays);
     
     return(
-        <View style={styles.container}>{item.map((i,index)=>(
-            <View key={index} style={styles.info}>
+        <View style={styles.container}>
+            <View style={styles.info}>
                 <View style={styles.carInfoContainer}>
                     
-                    <Image style={styles.anh} source={{uri:i.HinhAnh}}></Image>
+                    <Image style={styles.anh} source={{uri:item[0].IDXe.HinhAnh}}></Image>
                     <View style={styles.viewInfoXe}>
                         <View style={styles.row_thongtin}>
                             <Text style={styles.label}>Biển Số Xe : </Text>
-                            <Text>{i.BienSoXe}</Text>
+                            <Text>{item[0].IDXe.BienSoXe}</Text>
                         </View>
                         
                         <View style={styles.row_thongtin}>
                             <Text style={styles.label}>Tên Xe : </Text>
-                            <Text>{i.TenXe}</Text>
+                            <Text>{item[0].IDXe.TenXe}</Text>
                         </View>
                         <View style={styles.row_thongtin}>
                             <Text style={styles.label}>Loại Xe : </Text>
-                            <Text>{i.LoaiXe}</Text>
+                            <Text>{item[0].IDXe.LoaiXe}</Text>
+                        </View>
+                        <View style={styles.row_thongtin}>
+                            <Text style={styles.label}>Trạng thái : </Text>
+                            <Text>{item[0].IDXe.TinhTrang}</Text>
                         </View>
                     </View>
                     
@@ -79,19 +91,23 @@ const ThongTinXe=({route,navigation})=>{
                         </View>
                         <View style={styles.row_thongtin}>
                             <Text style={styles.label}>Tên Khách Hàng : </Text>
-                            <Text>{i.TenTaiKhoan}</Text>
+                            <Text>{item[0].IDKH.TenTaiKhoan}</Text>
+                        </View>
+                        <View style={styles.row_thongtin}>
+                            <Text style={styles.label}>Số điện thoại khách hàng: </Text>
+                            <Text>{item[0].IDKH.SoDienThoai}</Text>
                         </View>
                         <View style={styles.row_thongtin}>
                             <Text style={styles.label}>Ngày Thuê : </Text>
-                            <Text>{i.NgayThueXe}</Text>
+                            <Text>{moment(item[0].NgayThueXe).format('DD/MM/yyyy')}</Text>
                         </View>
                         <View style={styles.row_thongtin}>
                             <Text style={styles.label}>Ngày Trả : </Text>
-                            <Text>{i.NgayTraXe}</Text>
+                            <Text>{moment(item[0].NgayTraXe ).format('DD/MM/yyyy')}</Text>
                         </View>
                         <View style={styles.row_thongtin}>
                             <Text style={styles.label}>Chi Phí Thuê 1 Ngày : </Text>
-                            <Text>{i.GiaThue}</Text>
+                            <Text>{item[0].GiaThue}</Text>
                         </View>
                         <View style={styles.row_thongtin}>
                             <Text style={styles.label}>Tổng Chi Phí Thuê Xe : </Text>
@@ -99,11 +115,14 @@ const ThongTinXe=({route,navigation})=>{
                         </View>
                 </View>
             </View>
-        ))}
         <View style={{width:"90%",marginRight:35,alignItems:"center"}}>
+        {loading?(
+             <ActivityIndicator />
+           ):(
             <TouchableOpacity style={styles.btn} onPress={XacNhanDatXe}>
-                <Text style={{color:"white"}}>Xác Nhận</Text>
-            </TouchableOpacity>
+                <Text style={{color:"white"}}>Xác nhận trả xe</Text>
+            </TouchableOpacity> 
+           )}
         </View>
         </View>
         

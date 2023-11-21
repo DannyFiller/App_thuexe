@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, ScrollView, TextInput ,TouchableOpacity} from 'react-native';
+import { SignedOut } from '@clerk/clerk-expo';
+import React, { useState,useEffect } from 'react';
+import { Image,View, Text, Button,FlatList,StyleSheet, ScrollView, TextInput,TouchableOpacity} from 'react-native';
+import {useClerk} from '@clerk/clerk-expo';
 import axios from 'axios';
+import ThongTinXe from './thongTinDatXe';
 
-export default function SoXe({navigation}) {
-  const [isRentalPricesVisible, setIsRentalPricesVisible] = useState(false);
-  const [searchCustomer, setSearchCustomer] = useState('');
-  const [searchDays, setSearchDays] = useState('');
-  const [soXe,setSoXe]=useState([]);
-
+const SoXe = ({ navigation }) => {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -19,264 +16,193 @@ export default function SoXe({navigation}) {
       headerTitleStyle: {
         fontWeight: 'bold', //Set Header text style
       },
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Đặt Xe')}
+          style={{marginRight: 10}}>
+          <Text style={{color: 'white',marginRight:10}}>Đặt Xe</Text>
+        </TouchableOpacity>
+      ),
     });
   }, [navigation]);
 
 
-  useEffect(()=>{
-    fetchData();
-  },[]);
+  //Tìm kiếm
+  const [searchSo, setSearchSo] = useState('');
 
-  const fetchData=async()=>{
-    try{
-      const res=await axios.get("https://api-thue-xe-5fum.vercel.app/SoXe");
-      setSoXe(res.data);
-    }catch(error){
+  const clerk = useClerk();
+  //Xử lí đăng xuất 
+  const handleSignOut = async () => {
+    await clerk.signOut();
+    navigation.navigate('Đăng Nhập');
+  };
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, [data]);
+  const fetchData =async()=>{
+    try {
+      const response = await axios.get('https://api-thue-xe-5fum.vercel.app/SoXe');
+      setData(response.data);
+    } catch (error) {
       console.error(error);
     }
-  };
-
-  const toggleRentalPrices = () => {
-    fetchData();
-    setIsRentalPricesVisible(!isRentalPricesVisible);
-  };
-
-  const handleSearchButton = () => {
-    // Thực hiện tìm kiếm dựa trên giá trị của searchDuration và searchSeats
-    // Tải dữ liệu hoặc thực hiện xử lý tìm kiếm ở đây
-  };
-
+  }
   return (
     <View style={styles.container}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Tên khách hàng"
-          value={searchCustomer}
-          onChangeText={(text) => setSearchCustomer(text)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Ngày kí"
-          value={searchDays}
-          onChangeText={(text) => setSearchDays(text)}
-        />
-      </View>
-      <Button title="Tìm kiếm" onPress={handleSearchButton} />
-      <Button title="Hiện danh sách thuê" onPress={toggleRentalPrices} />
-      <View style={styles.rentalList}>
-        {isRentalPricesVisible && (
-          <ScrollView>
-            {soXe.map((item, index) => {
-              if(searchCustomer.length>0){
-                const khachHangName=item.KhachHang.Ten.toString().toLowerCase();
-                const input=searchCustomer.toString().toLowerCase();
-                if(khachHangName.includes(input)){
-                  return(
-                    <View key={index} style={styles.rentalItemContainer}>
-                    <View style={styles.rentalItem}>
-                      <Text style={styles.rentalItemTitle}>{item._id}</Text>
-                      <View style={styles.accountInfoContainer}>
-                        {/* <Text style={styles.boldText}>Tài khoản: {item.KhachHang.TenTaiKhoan}</Text> */}
-                        <Text style={styles.boldText}>Mã số xe: {item.Xe._id}</Text>
-                      </View>
-                      <View style={styles.rentalPeriodContainer}>
-                    <Text style={styles.contractInfoTitle}>Thời gian thuê:</Text>
-                        <Text >Ngày nhận: {item.NgayThueXe}</Text>
-                        <Text >Ngày trả: {item.NgayTraXe}</Text>
-                      </View>
-                      <View style={styles.contractInfoContainer}>
-                        <Text style={styles.contractInfoTitle}>Hợp đồng:</Text>
-                        <Text>Tên hãng xe: {item.Xe.TenXe}</Text>
-                        <Text>Biển số xe: {item.Xe.BienSoXe}</Text>
-                        <Text style={styles.statusText}>Tình trạng: {item.TinhTrang}</Text>
-                        <Text>Giá thuê trong 1 ngày: {item.GiaThue}</Text>
-                        <Text>Ngày thuê: {item.NgayKiHopDong}</Text>
-                      </View>
-    
-                    </View>
-                  </View>
-                  );
-                }else{
-                  return null;
-                }
-                
-              }else if(searchDays.length>0&&item.NgayKiHopDong!=null){
-                if(item.NgayKiHopDong.includes(searchDays)){
-                  return(
-                    <View key={index} style={styles.rentalItemContainer}>
-                    <View style={styles.rentalItem}>
-                      <Text style={styles.rentalItemTitle}>{item._id}</Text>
-                      <View style={styles.accountInfoContainer}>
-                        {/* <Text style={styles.boldText}>Tài khoản: {item.KhachHang.TenTaiKhoan}</Text> */}
-                        <Text style={styles.boldText}>Mã số xe: {item.Xe._id}</Text>
-                      </View>
-                      <View style={styles.rentalPeriodContainer}>
-                    <Text style={styles.contractInfoTitle}>Thời gian thuê:</Text>
-                        <Text >Ngày nhận: {item.NgayThueXe}</Text>
-                        <Text >Ngày trả: {item.NgayTraXe}</Text>
-                      </View>
-                      <View style={styles.contractInfoContainer}>
-                        <Text style={styles.contractInfoTitle}>Hợp đồng:</Text>
-                        <Text>Tên hãng xe: {item.Xe.TenXe}</Text>
-                        <Text>Biển số xe: {item.Xe.BienSoXe}</Text>
-                        <Text style={styles.statusText}>Tình trạng: {item.TinhTrang}</Text>
-                        <Text>Giá thuê trong 12 ngày: {item.GiaThue}</Text>
-                        <Text>Ngày thuê: {item.NgayKiHopDong}</Text>
-                      </View>
-    
-                    </View>
-                  </View>
-                  );
-                }else{
-                  return null;
-                }
-              }
-              else{
+      <TextInput style={styles.timKiem} value={searchSo} onChangeText={(text) => setSearchSo(text)} placeholder='Tìm kiếm' onSubmitEditing={()=>{console.log(searchSo)}}></TextInput>
+        <ScrollView>
+          {data.map((item,index)=>{
+            if(searchSo.length>0){
+              if(item.IDXe.TenXe.includes(searchSo)||item.IDKH.SoDienThoai.includes(searchSo)){
                 return(
-                  <View key={index} style={styles.rentalItemContainer}>
-                <View style={styles.rentalItem}>
-                  <Text style={styles.rentalItemTitle}>{item._id}</Text>
-                  <View style={styles.accountInfoContainer}>
-                    {/* <Text style={styles.boldText}>Tài khoản: {item.KhachHang.TenTaiKhoan}</Text> */}
-                    <Text style={styles.boldText}>Mã số xe: {item.Xe._id}</Text>
-                  </View>
-                  <View style={styles.rentalPeriodContainer}>
-                <Text style={styles.contractInfoTitle}>Thời gian thuê:</Text>
-                    <Text >Ngày nhận: {item.NgayThueXe}</Text>
-                    <Text >Ngày trả: {item.NgayTraXe}</Text>
-                  </View>
-                  <View style={styles.contractInfoContainer}>
-                    <Text style={styles.contractInfoTitle}>Hợp đồng:</Text>
-                    <Text>Tên hãng xe: {item.Xe.TenXe}</Text>
-                    <Text>Biển số xe: {item.Xe.BienSoXe}</Text>
-                    <Text style={styles.statusText}>Tình trạng: {item.TinhTrang}</Text>
-                    <Text>Giá thuê trong 1 ngày: {item.GiaThue}</Text>
-                    <Text>Ngày thuê: {item.NgayKiHopDong}</Text>
-                  </View>
-
+                  <TouchableOpacity key={index} onPress={()=>navigation.navigate('Thong tin so xe',{item})}>
+                  <View style={styles.canGia}>
+                  <View style={styles.item_container}>
+                      <View style={styles.coverAnh}>       
+                        <Image style={styles.anh} source={{uri: item.IDXe.HinhAnh}}/>
+                        <View style={styles.maSo}>
+                          <Text>{item.IDXe.TenXe}</Text>
+                        </View>
+                        <View style={styles.bienSoXe}>
+                          <Text>{item.IDXe.BienSoXe}</Text> 
+                        </View>
+                        <View style={styles.loaiXe}>
+                          <Text>{item.IDXe.LoaiXe}</Text>
+                        </View>
+                      </View>
+                        <View style={styles.canGia}>
+                            <Text style={styles.tenxe}>Tên: {item.IDKH.Ten}</Text>
+                            <Text style={styles.giaThue}>Số điện thoại: {item.IDKH.SoDienThoai}</Text>
+                        </View>
+                      <Text style={styles.ngayThue}>27/10/2022 -10/11/2022</Text>
+                    </View>
                 </View>
-              </View>
+                </TouchableOpacity>
                 )
+              }else{  
+                return null;
               }
+            }else{
+              return(
+                <TouchableOpacity key={index} onPress={()=>navigation.navigate('Thong tin so xe',{item})}>
+                <View style={styles.canGia}>
+                <View style={styles.item_container}>
+                    <View style={styles.coverAnh}>       
+                      <Image style={styles.anh} source={{uri: item.IDXe.HinhAnh}}/>
+                      <View style={styles.maSo}>
+                        <Text>{item.IDXe.TenXe}</Text>
+                      </View>
+                      <View style={styles.bienSoXe}>
+                        <Text>{item.IDXe.BienSoXe}</Text> 
+                      </View>
+                      <View style={styles.loaiXe}>
+                        <Text>{item.IDXe.LoaiXe}</Text>
+                      </View>
+                    </View>
+                      <View style={styles.canGia}>
+                          <Text style={styles.tenxe}>Tên: {item.IDKH.Ten}</Text>
+                          <Text style={styles.giaThue}>Số điện thoại: {item.IDKH.SoDienThoai}</Text>
+                      </View>
+                    <Text style={styles.ngayThue}>27/10/2022 -10/11/2022</Text>
+                  </View>
+              </View>
+              </TouchableOpacity>
+              )
+            }
               
-            })}
-          </ScrollView>
-        )}
-      </View>
-      <StatusBar style="auto" />
+            
+          })}
+        </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f0f0f0',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-    borderRadius: 10,
+    flex:1,
+    alignSelf:'center',
+
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    marginBottom: 20,
+  coverAnh:{
+    position:'relative',
+
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'blue',
-    textDecorationLine: 'underline',
+  item_container:{
+    padding:1,
+    borderRadius:5,
+    backgroundColor:'#fff',
+    elevation:10,
+    marginBottom:10,
   },
-  inputContainer: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 20,
-    borderRadius: 20,
+  anh:{
+    width:300,
+    height:170,
+    borderWidth:1,
+    // borderColor:"#FF0E3C",
+    borderTopRightRadius:5,
+    borderTopLeftRadius:5,
   },
-  input: {
-    flex: 1,
-    borderColor: 'gray',
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 5,
+  canGia:{
+    marginTop:5,
+    marginHorizontal:10,
+    display:'flex',
+    flexDirection:'row',
+    justifyContent:'space-between'
+
   },
-  rentalList: {
-    width: '100%',
-    borderRadius: 20,
-    height:'75%'
+  tenxe:{
+    
   },
-  rentalItemContainer: {
-    backgroundColor: '#f5f5f5',
-    marginBottom: 20,
-    borderColor: 'gray',
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 20,
+  ngayThue:{
+    marginHorizontal:10,
+    marginVertical:5,
   },
-  rentalItem: {
-    // Styles for individual rental item go here
+  giaThue:{
+    
   },
-  accountInfoContainer: {
-    // Styles for account information container go here
-    borderColor: 'blue',
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 20,
+  maSo:{
+    position:'absolute',
+    backgroundColor:"#fff",
+    margin:5,
+    padding:5,
+    borderRadius:3,
+    opacity:0.8,
+    elevation:10,
+    top:0,
+    left:0,
   },
-  rentalPeriodContainer: {
-    // Styles for rental period container go here
-    borderColor: 'blue',
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 20,
+  bienSoXe:{
+    position:'absolute',
+    backgroundColor:"#fff",
+    margin:5,
+    padding:5,
+    borderRadius:5,
+    opacity:0.8,
+    top:0,
+    right:0,
   },
-  rentalPeriod: {
-    // Styles for rental period information go here
+  loaiXe:{
+    position:'absolute',
+    backgroundColor:"#fff",
+    margin:5,
+    padding:5,
+    borderRadius:5,
+    opacity:0.8,
+    bottom:0,
+    right:0,
   },
-  contractInfoContainer: {
-    // Styles for contract information container go here
-    borderColor: 'blue',
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 20,
-  },
-  contractInfoTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    borderRadius: 20,
-  },
-  rentalItemTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    borderRadius: 20,
-  },
-  boldText: {
-    fontWeight: 'bold',
-    borderRadius: 20,
-  },
-  homeButton: {
-backgroundColor: 'green',
-    color: 'white',
-    fontWeight: 'bold',
-    padding: 10,
-    borderRadius: 20,
-  },
-  exitButton: {
-    backgroundColor: 'red',
-    color: 'white',
-    fontWeight: 'bold',
-    padding: 10,
-    borderRadius: 5,
-  },
-  statusText: {
-    fontWeight: 'bold',
-    color: 'red', // Chọn màu bạn muốn
+  timKiem:{
+    width:320,
+    backgroundColor:'#fff',
+    marginTop:10,
+    marginBottom:10,
+    height:40,
+    paddingLeft:15,
+    borderRadius:5,
   },
 });
+
+export default SoXe;
