@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Image,View, Text, Button,FlatList,StyleSheet, ScrollView, TextInput,TouchableOpacity} from 'react-native';
 import axios from "axios";
+import moment from "moment";
+
 
 export default ThongTinDangNhap=({navigation})=>{
     const [data,setData]=useState([]);
@@ -8,6 +10,14 @@ export default ThongTinDangNhap=({navigation})=>{
         await clerk.signOut();
         navigation.navigate('Đăng Nhập');
       };
+      const DangXuat=()=>{
+        // var NgayThue=moment("11/21/2023", "MM/DD/YYYY");
+        // var NgayTra=moment("11/23/2023", "MM/DD/YYYY");
+        const NgayThue=moment(new Date(1700499600000));
+        const NgayTra=moment(new Date(1700586000000));
+        const diff=NgayTra.diff(NgayThue,"days");
+        console.log(NgayTra);
+      }
     React.useLayoutEffect(() => {
     navigation.setOptions({
         title: 'Chi Tiết', 
@@ -47,8 +57,8 @@ export default ThongTinDangNhap=({navigation})=>{
                     </View>
                 )
             })}
-            <TouchableOpacity style={styles.btn} >
-                <Text style={{color:"white"}}>Dang xuat</Text>
+            <TouchableOpacity style={styles.btn} onPress={DangXuat}>
+                <Text style={{color:"white"} }>Dang xuat</Text>
             </TouchableOpacity> 
             <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate("Cap nhat khach hang",{data})}>
                 <Text style={{color:"white"}}>Cập nhật thông tin</Text>

@@ -168,7 +168,7 @@ const DatXe = ({navigation}) =>{
       const testData ={
         IDDon : idDDon,
         NgayBatDau : ngayBatDau,
-        NgayKetThuc : ngayBatDau,
+        NgayKetThuc : ngayKetThuc,
         TinhTrang : tinhTrang,
         IDXe : chonData,
         IDKH : chonUser,

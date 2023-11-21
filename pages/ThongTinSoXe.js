@@ -23,8 +23,8 @@ const ThongTinSoXe=({route,navigation})=>{
     //trừ 2 ngày 
     // chưa xài dc 
     const [loading,setLoading]=useState(false);
-    const date1 = moment('2021-09-01', 'YYYY-MM-DD');
-    const date2 = moment('2021-09-10', 'YYYY-MM-DD');
+    const date1 = moment(new Date(item[0].NgayBatDau));
+    const date2 = moment(new Date(item[0].NgayKetThuc));
     const differenceInDays = date2.diff(date1, 'days');
     console.log(differenceInDays);
     const dataXe={
@@ -87,19 +87,19 @@ const ThongTinSoXe=({route,navigation})=>{
                         </View>
                         <View style={styles.row_thongtin}>
                             <Text style={styles.label}>Ngày Thuê : </Text>
-                            <Text>{moment(item[0].NgayThueXe).format('DD/MM/yyyy')}</Text>
+                            <Text>{moment(item[0].NgayBatDau).format('DD/MM/yyyy')}</Text>
                         </View>
                         <View style={styles.row_thongtin}>
                             <Text style={styles.label}>Ngày Trả : </Text>
-                            <Text>{moment(item[0].NgayTraXe ).format('DD/MM/yyyy')}</Text>
+                            <Text>{moment(item[0].NgayKetThuc ).format('DD/MM/yyyy')}</Text>
                         </View>
                         <View style={styles.row_thongtin}>
                             <Text style={styles.label}>Chi Phí Thuê 1 Ngày : </Text>
-                            <Text>{item[0].GiaThue}</Text>
+                            <Text>{item[0].IDXe.SoTien}</Text>
                         </View>
                         <View style={styles.row_thongtin}>
                             <Text style={styles.label}>Tổng Chi Phí Thuê Xe : </Text>
-                            <Text>{differenceInDays}</Text>
+                            <Text>{differenceInDays*item[0].IDXe.SoTien}</Text>
                         </View>
                 </View>
             </View>
