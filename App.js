@@ -41,7 +41,6 @@ function App () {
               <Stack.Screen name="Đặt Xe" component={DatXe} options={{title:'Đặt Xe',headerShown:true}}/>  
               <Stack.Screen name="Thong tin dang nhap" component={ThongTinDangNhap} options={{title:'Thông tin',headerShown:true}}/>  
               <Stack.Screen name="Cap nhat khach hang" component={CapNhatThongTinKhachHang} options={{title:'Thông tin',headerShown:true}}/>  
-              <Stack.Screen name="Đặt Xe" component={DatXe} options={{title:'Đặt Xe',headerShown:true}}/> 
               <Stack.Screen name="Sửa Sổ Đặt Xe" component={SuaSoDatXe} options={{title:'Sửa Sổ Đặt Xe',headerShown:true}}/>  
             </Stack.Navigator>
           </NavigationContainer>
