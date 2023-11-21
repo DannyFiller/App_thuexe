@@ -20,6 +20,27 @@ const DatXe = ({navigation}) =>{
     // const [giaThueXe, setGiaThueXe] = useState('');
     // const [soCho, setSoCho] = useState('');
 
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+          headerStyle: {
+            backgroundColor: '#f4511e', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            fontWeight: 'bold', //Set Header text style
+          },
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Tạo Khách Hàng')}
+              style={{marginRight: 10}}>
+              <Text style={{color: 'white',marginRight:10}}>Thêm Khách Hàng</Text>
+            </TouchableOpacity>
+          ),
+        });
+      }, [navigation]);
+
+
+
     //khai báo biến dữ liệu
     const [chonData, setChonData] = useState(null);
     const [chonUser, setChonUser] = useState(null);
@@ -173,7 +194,7 @@ const DatXe = ({navigation}) =>{
     const testDatXe =() =>{
         console.log("KH " + chonData + " IDXe " + chonUser)
         console.log(tinhTrang);
-        console.log(testData);
+        console.log(test);
     }
       
     
@@ -340,9 +361,7 @@ const styles = StyleSheet.create({
     //     borderWidth:1,
     //     paddingLeft:10,
     // },
-    Cccd:{
-        alignSelf:'center'
-    },
+    
     maSo:{
         margin:10,
     },
@@ -405,7 +424,9 @@ const styles = StyleSheet.create({
         marginHorizontal:10,
         
     },
-
+    Cccd:{
+        alignSelf:'center'
+    },
     hinhCCCD:{
         width:200,
         height:150,
