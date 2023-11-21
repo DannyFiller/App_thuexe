@@ -5,7 +5,8 @@ import {useClerk} from '@clerk/clerk-expo';
 import axios from 'axios';
 
 
-const SoXe = ({ navigation }) => {
+
+const SoDatXe = ({ navigation }) => {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -208,4 +209,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SoXe;
+export default SoDatXe;

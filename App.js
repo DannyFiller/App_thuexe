@@ -19,6 +19,7 @@ import thongTinSoXe from './pages/ThongTinSoXe';
 import LichSuDatXe from './pages/KhachHang/LichSuDatXe';
 import ThongTinDangNhap from './pages/ThongTinDangNhap';
 import CapNhatThongTinKhachHang from './pages/KhachHang/CapNhatThongTinKhachHang';
+import SuaSoDatXe from './pages/SuaSoDatXe';
 
 const BottomTab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -40,6 +41,8 @@ function App () {
               <Stack.Screen name="Đặt Xe" component={DatXe} options={{title:'Đặt Xe',headerShown:true}}/>  
               <Stack.Screen name="Thong tin dang nhap" component={ThongTinDangNhap} options={{title:'Thông tin',headerShown:true}}/>  
               <Stack.Screen name="Cap nhat khach hang" component={CapNhatThongTinKhachHang} options={{title:'Thông tin',headerShown:true}}/>  
+              <Stack.Screen name="Đặt Xe" component={DatXe} options={{title:'Đặt Xe',headerShown:true}}/> 
+              <Stack.Screen name="Sửa Sổ Đặt Xe" component={SuaSoDatXe} options={{title:'Sửa Sổ Đặt Xe',headerShown:true}}/>  
             </Stack.Navigator>
           </NavigationContainer>
     </ClerkProvider >
