@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import {Colors,} from 'react-native/Libraries/NewAppScreen';
 import { TouchableOpacity,Button, SafeAreaView,ScrollView, StatusBar, StyleSheet, Text,useColorScheme, View,TextInput,Image, TouchableOpacityBase,} from 'react-native';
 import {useSignIn } from "@clerk/clerk-expo";
+import axios from 'axios';
 
 
 const DangNhap = ({ navigation }) => {
@@ -11,8 +12,25 @@ const DangNhap = ({ navigation }) => {
   const { signIn, setActive, isLoaded } = useSignIn();
   const [emailAddress, setEmailAddress] = React.useState("");
   const [password, setPassword] = React.useState("");
- 
-  
+  const [tkkh,settkkh]=useState();
+  const [tknv,settknv]=useState();
+  const checkQuyen=async ()=>{
+    try{
+      console.log(emailAddress);
+      const req= await axios.get("https://api-thue-xe-5fum.vercel.app/TaiKhoan/GetTKKH/"+emailAddress);
+      const req1= await axios.get("https://api-thue-xe-5fum.vercel.app/TaiKhoan/GetTKNV/"+emailAddress);
+      if(req.data!=""){
+        navigation.navigate('Tabkh');
+      }
+      if(req1.data!=""){
+        navigation.navigate('Tab');
+      }
+      console.log("data1"+req1.data+"data2"+req.data);
+    }catch(err){
+      console.log(err);
+    }
+
+  }
   const onSignInPress = async () => {
     if (!isLoaded) {
       return;
@@ -26,9 +44,7 @@ const DangNhap = ({ navigation }) => {
       // This is an important step,
       // This indicaimport { StylisElement } from './../node_modules/@emotion/cache/dist/declarations/types/index.d';tes the user is signed in
       await setActive({ session: completeSignIn.createdSessionId });
-      navigation.navigate('Tab');
-      console.log()
-
+      checkQuyen();
     } catch (err) {
       alert(err.errors[0].message);
       console.log(Lỗi);
