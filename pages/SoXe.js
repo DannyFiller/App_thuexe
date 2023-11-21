@@ -5,6 +5,7 @@ import {useClerk} from '@clerk/clerk-expo';
 import axios from 'axios';
 
 
+
 const SoXe = ({ navigation }) => {
 
   React.useLayoutEffect(() => {
