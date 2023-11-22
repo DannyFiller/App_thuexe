@@ -37,7 +37,7 @@ export default ThongTinDangNhap=({navigation})=>{
 
       const fetchData =async()=>{
         try {
-          const response = await axios.get('https://api-thue-xe-5fum.vercel.app/TaiKhoan/GetTKNV/'+user.emailAddresses);
+          const response = await axios.get('https://api-thue-xe-5fum.vercel.app/TaiKhoan/GetTKKH/'+user.emailAddresses);
           setData(response.data);
         } catch (error) {
           console.error(error);
@@ -62,6 +62,9 @@ export default ThongTinDangNhap=({navigation})=>{
             })}
             <TouchableOpacity style={styles.btn} onPress={handleSignOut}>
                 <Text style={{color:"white"} }>Dang xuat</Text>
+            </TouchableOpacity> 
+            <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate("Cap nhat khach hang",{data})}>
+                <Text style={{color:"white"}}>Cập nhật thông tin</Text>
             </TouchableOpacity> 
         </View>
         
