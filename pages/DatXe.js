@@ -7,9 +7,43 @@ import * as ImagePicker from 'expo-image-picker'
 import * as FileSystem from 'expo-file-system';
 import { firebase } from '../config';
 import { Dropdown } from 'react-native-element-dropdown';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 
 const DatXe = ({navigation}) =>{
+
+    //Set date 
+    const [date, setDate] = useState(new Date(1598051730000));
+    const [date1, setDate1] = useState(new Date(1598051730000));
+    const [mode, setMode] = useState('date');
+    const [show, setShow] = useState(false);
+  
+    const onChange = (event, selectedDate) => {
+      const currentDate = selectedDate;
+      setShow(false);
+      setDate(currentDate);
+      setngayBatDau(date);
+      console.log(date);
+    };
+
+    const onChange1 = (event, selectedDate) => {
+        const currentDate = selectedDate;
+        setShow(false);
+        setDate1(currentDate);
+        setNgayKetThuc(date1);
+        console.log(date1);
+      };
+  
+    const showMode = (currentMode) => {
+      setShow(true);
+      setMode(currentMode);
+    };
+  
+    const showDatepicker = () => {
+      showMode('date');
+    };
+  
+
     // dữ liệu cũ
     // const [maSo, setMaSo] = useState('');
     // const [tenTaiKhoan, setTenTaiKhoan] = useState('');
@@ -19,7 +53,7 @@ const DatXe = ({navigation}) =>{
     // const [ngayTraXe, setNgayTraXe] = useState('');
     // const [giaThueXe, setGiaThueXe] = useState('');
     // const [soCho, setSoCho] = useState('');
-
+ 
     React.useLayoutEffect(() => {
         navigation.setOptions({
           headerStyle: {
@@ -69,8 +103,6 @@ const DatXe = ({navigation}) =>{
           .then(response => setUser(response.data))
           .catch(error => console.log(error));
       }, []);
-
-    
 
     const thongTinXe=(a,b,c)=>{
       navigation.navigate("Thong tin xe",a,b,c);
@@ -151,6 +183,10 @@ const DatXe = ({navigation}) =>{
     // nút trở về
     const troVeHandle = () =>{
         // navigation.navigate('Tab');
+
+        console.log(date+ " và  " + date1);
+        console.log("ngày bad dau : " + ngayBatDau);
+        console.log("ngay ket thuc : " + ngayKetThuc);
     }
 
     // thiết kế header
@@ -193,7 +229,6 @@ const DatXe = ({navigation}) =>{
     //test
     const testDatXe =() =>{
         console.log("KH " + chonData + " IDXe " + chonUser)
-        console.log(tinhTrang);
         console.log(test);
     }
       
@@ -300,6 +335,22 @@ const DatXe = ({navigation}) =>{
                     {/* <TouchableOpacity onPress={()=> {}} style={styles.btnDatXe}><Text>Date</Text></TouchableOpacity> */}
                 </View>
 
+
+                <Button onPress={showDatepicker} title="Show date picker!" />
+                <Text>selected: {date.toLocaleString()}</Text>
+
+                {show && (
+                    <DateTimePicker
+                    testID="dateTimePicker"
+                    value={date}
+                    mode={mode}
+                    is24Hour={true}
+                    onChange={onChange}
+                    />
+                )}        
+
+
+                <Button onPress={showDatepicker} title="Show date 2!" />
             </View>
         </SafeAreaView>
     )
