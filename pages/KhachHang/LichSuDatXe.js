@@ -1,11 +1,12 @@
-import { SignedOut } from '@clerk/clerk-expo';
+import { SignedOut, useUser } from '@clerk/clerk-expo';
 import React, { useState,useEffect } from 'react';
 import { Image,View, Text, Button,FlatList,StyleSheet, ScrollView, TextInput,TouchableOpacity} from 'react-native';
 import {useClerk} from '@clerk/clerk-expo';
 import axios from 'axios';
 import { Dropdown } from 'react-native-element-dropdown';
 const SoXe = ({ navigation }) => {
-    const [selectedValue, setSelectedValue] = useState(null);
+  const { isLoaded, isSignedIn, user } = useUser();
+  const [selectedValue, setSelectedValue] = useState(null);
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerStyle: {
@@ -49,7 +50,8 @@ const SoXe = ({ navigation }) => {
 
   const fetchData =async()=>{
     try {
-      const response = await axios.get('https://api-thue-xe-5fum.vercel.app/LichSuDatXe/654dc4e4d37dc60ba7fd134d');
+      const res=await axios.get('https://api-thue-xe-5fum.vercel.app/TaiKhoan/GetTKKH/'+user.emailAddresses);
+      const response = await axios.get('https://api-thue-xe-5fum.vercel.app/LichSuDatXe/'+res.data[0].IDKH._id);
       setData(response.data);
     } catch (error) {
       console.error(error);

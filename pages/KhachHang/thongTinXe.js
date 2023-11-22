@@ -1,13 +1,17 @@
-import { useRoute ,useState} from "@react-navigation/native";
-import React from "react";
-import { View,Text,StyleSheet,Image, TouchableOpacity, Alert } from "react-native";
-import BaoGia from './BaoGia';
+import { useRoute } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
+import { View,Text,StyleSheet,Image, TouchableOpacity, Alert, TextInput } from "react-native";
 import moment from 'moment';
 import axios from "axios";
+import { useUser } from "@clerk/clerk-expo";
 
 
 const ThongTinXe=({route,navigation})=>{
-    
+    const { isLoaded, isSignedIn, user } = useUser();
+    const[idDDon,HandleIDDon]=useState();
+    const[ngayBatDau,HandleNgayBatDau]=useState();
+    const[ngayKetThuc,HandleNgayKetThuc]=useState();
+    const[idKH,setIDKH]=useState();
     React.useLayoutEffect(() => {
         navigation.setOptions({
           title: 'Chi Tiết', 
@@ -21,29 +25,24 @@ const ThongTinXe=({route,navigation})=>{
     var today = new Date();
     var date = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
     const item=[route.params.item];
-    const KhachHang={
-        TenTaiKhoan:item[0].KhachHang
-    }
-    const data={
-        Xe:item[0]._id,
-        NgayThueXe:item[0].NgayThueXe!=null?item[0].NgayThueXe:0,
-        NgayTraXe:item[0].NgayTraXe!=null?item[0].NgayTraXe:0,
-        GiaThue : item[0].GiaThue!=null?item[0].GiaThue:0,
-        NgayKiHopDong: date,
-        TinhTrang: 'Chua tra'
-      };
+    useEffect(async ()=>{
+        try{
+            const account=await axios.get("https://api-thue-xe-5fum.vercel.app/TaiKhoan/GetTKKH/"+user.emailAddresses);
+            setIDKH(account.data[0].IDKH._id);
+        }catch(err){
+            console.log(err);
+        }
+    },[])
+    const testData ={
+        IDDon : idDDon,
+        NgayBatDau : ngayBatDau,
+        NgayKetThuc : ngayKetThuc,
+        TinhTrang : 'Chưa xác nhận',
+        IDXe : item[0]._id,
+        IDKH : idKH,
+      }
     const XacNhanDatXe=()=>{  
-        axios.post('https://api-thue-xe-5fum.vercel.app/SoXe', data)
-        .then(response => {
-          // Xử lý kết quả từ API
-          console.log(response.data);
-          Alert.alert("Dặt Xe Thành Công");
-          navigation.goBack();
-        })
-        .catch(error => {
-          // Xử lý lỗi nếu có
-          console.error(error);
-        });
+        console.log(testData);
     }
 
 
@@ -74,39 +73,31 @@ const ThongTinXe=({route,navigation})=>{
                             <Text style={styles.label}>Loại Xe : </Text>
                             <Text>{i.LoaiXe}</Text>
                         </View>
+                        <View style={styles.row_thongtin}>
+                            <Text style={styles.label}>Giá thuê 1 ngày : </Text>
+                            <Text>{i.SoTien}</Text>
+                        </View>
                     </View>
                     
-                </View>
-                <View style={styles.CustomerInfoContainer}>
-                        <View style={styles.titleContain}>
-                            <Text style={styles.titleText}> Thông Tin Khách Hàng</Text>
-                        </View>
-                        <View style={styles.row_thongtin}>
-                            <Text style={styles.label}>Tên Khách Hàng : </Text>
-                            <Text>{i.TenTaiKhoan}</Text>
-                        </View>
-                        <View style={styles.row_thongtin}>
-                            <Text style={styles.label}>Ngày Thuê : </Text>
-                            <Text>{i.NgayThueXe}</Text>
-                        </View>
-                        <View style={styles.row_thongtin}>
-                            <Text style={styles.label}>Ngày Trả : </Text>
-                            <Text>{i.NgayTraXe}</Text>
-                        </View>
-                        <View style={styles.row_thongtin}>
-                            <Text style={styles.label}>Chi Phí Thuê 1 Ngày : </Text>
-                            <Text>{i.GiaThue}</Text>
-                        </View>
-                        <View style={styles.row_thongtin}>
-                            <Text style={styles.label}>Tổng Chi Phí Thuê Xe : </Text>
-                            <Text>{differenceInDays}</Text>
-                        </View>
                 </View>
             </View>
         ))}
         <View style={{width:"90%",marginRight:35,alignItems:"center"}}>
+                <View style={styles.maSo}>
+                    <Text>Mã Đơn</Text>
+                    <TextInput style={styles.maSoInput} onChangeText={HandleIDDon} value={idDDon}/>
+                </View>
+                <View style={styles.ngayThue}>
+                    <Text>Ngày thuê xe</Text>
+                    <TextInput style={styles.ngayThueInput} value={ngayBatDau} onChangeText={HandleNgayBatDau}/>
+                </View>
+
+                <View style={styles.ngayTra}>
+                    <Text>Ngày trả xe</Text>
+                    <TextInput style={styles.ngayTraInput} value={ngayKetThuc} onChangeText={HandleNgayKetThuc}/>
+                </View>
             <TouchableOpacity style={styles.btn} onPress={XacNhanDatXe}>
-                <Text style={{color:"white"}}>Xác Nhận</Text>
+                <Text style={{color:"white"}}>Đặt xe</Text>
             </TouchableOpacity>
         </View>
         </View>
@@ -115,14 +106,14 @@ const ThongTinXe=({route,navigation})=>{
 }
 const styles=StyleSheet.create({
     container:{
-        justifyContent:'center',
+        justifyContent:'top',
         width:'100%',
         height:'100%',
         display:"flex",
         flexDirection:'column',
         alignItems:'center',
         marginLeft:20,
-
+        top:50
 
     },
     CustomerInfoContainer:{
