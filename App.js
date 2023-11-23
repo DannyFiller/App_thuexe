@@ -35,11 +35,12 @@ function App () {
   return (
     <ClerkProvider  publishableKey={'pk_test_YWJvdmUtcm9vc3Rlci01MC5jbGVyay5hY2NvdW50cy5kZXYk'}>
         <NavigationContainer> 
-            <Stack.Navigator screenOptions={{headerShown:false,headerLeft:()=> null}} initialRouteName='Đăng Nhập'>
+        <Stack.Navigator screenOptions={{headerShown:false,headerLeft:()=> null}} initialRouteName='TabKHVl'>
               <Stack.Screen name="Đăng Nhập" component={DangNhap}/>  
               <Stack.Screen name="Đăng Ký" component={DangKy}/>  
               <Stack.Screen name='Tab' component={Tab}/>
               <Stack.Screen name='Tabkh' component={Tabkh}/>
+              <Stack.Screen name='TabKHVl' component={TabKHVl}/>
               <Stack.Screen name='Sổ Xe' component={SoXe}/>
               <Stack.Screen name='Sổ Đặt Xe' component={SoDatXe}/>
               <Stack.Screen name="trang xe" component={trangXe}/>  
@@ -132,6 +133,15 @@ function Tabkh(){
           )
         }
       }}/>
+   </BottomTab.Navigator>
+  )
+}
+
+function TabKHVl(){
+  return(
+   <BottomTab.Navigator screenOptions={{headerShown:true}}>
+      <BottomTab.Screen name="Xe" component={trangXe}/>
+      <BottomTab.Screen name="Thông tin " component={ThongTinKhachHang}/>
    </BottomTab.Navigator>
   )
 }
