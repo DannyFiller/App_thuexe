@@ -84,7 +84,7 @@ const ThongTinXe=({route,navigation})=>{
                             <Text>{i.TenXe}</Text>
                         </View>
                         <View style={styles.row_thongtin}>
-                            <Text style={styles.label}>Loại Xe : </Text>
+                            <Text style={styles.label}>Loại Xe  : </Text>
                             <Text>{i.LoaiXe}</Text>
                         </View>
                         <View style={styles.row_thongtin}>
