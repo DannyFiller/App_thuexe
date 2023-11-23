@@ -8,6 +8,7 @@ import * as FileSystem from 'expo-file-system';
 import { firebase } from '../config';
 import { Dropdown } from 'react-native-element-dropdown';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useClerk } from '@clerk/clerk-react';
 
 
 const DatXe = ({navigation}) =>{
@@ -22,17 +23,9 @@ const DatXe = ({navigation}) =>{
       const currentDate = selectedDate;
       setShow(false);
       setDate(currentDate);
-      setngayBatDau(date);
       console.log(date);
     };
 
-    const onChange1 = (event, selectedDate) => {
-        const currentDate = selectedDate;
-        setShow(false);
-        setDate1(currentDate);
-        setNgayKetThuc(date1);
-        console.log(date1);
-      };
   
     const showMode = (currentMode) => {
       setShow(true);
@@ -82,8 +75,8 @@ const DatXe = ({navigation}) =>{
 
     //data theo api
     const [idDDon,setIDDon] = useState('');
-    const [ngayBatDau,setngayBatDau] = useState('');
-    const [ngayKetThuc,setNgayKetThuc] = useState('');
+    const [ngayBatDau,setngayBatDau] = useState(null);
+    const [ngayKetThuc,setNgayKetThuc] = useState(null);
     const [tinhTrang,setTinhTrang] = useState('Chưa xác nhận');
 
     //set data dropdown
@@ -180,6 +173,9 @@ const DatXe = ({navigation}) =>{
         setIDXe(date);
     }
   
+    const { userid } = useClerk();
+    
+
     // nút trở về
     const troVeHandle = () =>{
         // navigation.navigate('Tab');
@@ -187,6 +183,14 @@ const DatXe = ({navigation}) =>{
         console.log(date+ " và  " + date1);
         console.log("ngày bad dau : " + ngayBatDau);
         console.log("ngay ket thuc : " + ngayKetThuc);
+        if (userid) {
+            // Lấy ID tài khoản của Clerk
+            const clerkId = user.id;
+            console.log(clerkId);
+          } else {
+            console.log('Không có tài khoản người dùng hiện tại');
+          }
+
     }
 
     // thiết kế header
@@ -336,8 +340,8 @@ const DatXe = ({navigation}) =>{
                 </View>
 
 
-                <Button onPress={showDatepicker} title="Show date picker!" />
-                <Text>selected: {date.toLocaleString()}</Text>
+                {/* <Button onPress={showDatepicker} title="Show date picker!" />
+                <Text>selected: {date.toLocaleString()}</Text> */}
 
                 {show && (
                     <DateTimePicker
@@ -350,7 +354,7 @@ const DatXe = ({navigation}) =>{
                 )}        
 
 
-                <Button onPress={showDatepicker} title="Show date 2!" />
+                {/* <Button onPress={showDatepicker} title="Show date 2!" /> */}
             </View>
         </SafeAreaView>
     )

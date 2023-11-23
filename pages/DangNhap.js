@@ -16,7 +16,7 @@ const DangNhap = ({ navigation }) => {
   const [tknv,settknv]=useState();
   const checkQuyen=async ()=>{
     try{
-      console.log(emailAddress);
+      // console.log(emailAddress);
       const req= await axios.get("https://api-thue-xe-5fum.vercel.app/TaiKhoan/GetTKKH/"+emailAddress);
       const req1= await axios.get("https://api-thue-xe-5fum.vercel.app/TaiKhoan/GetTKNV/"+emailAddress);
       if(req.data!=""){
@@ -25,7 +25,7 @@ const DangNhap = ({ navigation }) => {
       if(req1.data!=""){
         navigation.navigate('Tab');
       }
-      console.log("data1"+req1.data+"data2"+req.data);
+      // console.log("data1"+req1.data+"data2"+req.data);
     }catch(err){
       console.log(err);
     }
