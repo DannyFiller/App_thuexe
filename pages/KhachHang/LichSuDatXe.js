@@ -22,8 +22,10 @@ const SoXe = ({ navigation }) => {
         <Dropdown style={styles.dropdown}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
-        data={[{value:"Đã xác nhận",label:"Đã xác nhận"},
-                {value:"Chưa xác nhận",label:"Chưa xác nhận"}]}
+        data={[{value:"Đặt trước",label:"Đặt trước"},
+                {value:"Hoạt động",label:"Hoạt động"},
+                {value:"Hoàn thành",label:"Hoàn thành"}
+              ]}
         placeholder="Lọc"
         labelField="label"
         valueField="value"
@@ -146,6 +148,9 @@ const SoXe = ({ navigation }) => {
                               <View style={styles.bienSoXe}>
                                 <Text>{item.IDXe.BienSoXe}</Text> 
                               </View>
+                              <View style={styles.TinhTrang}>
+                            <Text>{item.TinhTrang}</Text>
+                            </View>
                               <View style={styles.loaiXe}>
                                 <Text>{item.IDXe.LoaiXe}</Text>
                               </View>
@@ -175,6 +180,9 @@ const SoXe = ({ navigation }) => {
                             <View style={styles.bienSoXe}>
                               <Text>{item.IDXe.BienSoXe}</Text> 
                             </View>
+                            <View style={styles.TinhTrang}>
+                          <Text>{item.TinhTrang}</Text>
+                        </View>
                             <View style={styles.loaiXe}>
                               <Text>{item.IDXe.LoaiXe}</Text>
                             </View>
@@ -209,6 +217,16 @@ const styles = StyleSheet.create({
   coverAnh:{
     position:'relative',
 
+  },
+  TinhTrang:{
+    position:'absolute',
+    backgroundColor:"#fff",
+    margin:5,
+    padding:5,
+    borderRadius:5,
+    opacity:0.8,
+    left:0,
+    bottom:0,
   },
   dropdown: {
     height: 30,
