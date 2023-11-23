@@ -50,7 +50,7 @@ const DatXe = ({navigation}) =>{
     const [idDDon,setIDDon] = useState('');
     const [ngayBatDau,setngayBatDau] = useState('');
     const [ngayKetThuc,setNgayKetThuc] = useState('');
-    const [tinhTrang,setTinhTrang] = useState('Chưa xác nhận');
+    const [tinhTrang,setTinhTrang] = useState('Đặt trước');
 
     //set data dropdown
     const [data, setData] = useState([]);
