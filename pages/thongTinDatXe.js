@@ -29,10 +29,10 @@ const ThongTinXe=({route,navigation})=>{
         TenTaiKhoan:item[0].KhachHang
     }
     const data={
-        TinhTrang: 'Đã xác nhận'
+        TinhTrang: 'Hoạt động'
       };
     const dataXe={
-        TinhTrang: 'Đang được thuê'
+        TinhTrang: 'Đang thuê'
     }
     const [loading,setLoading]=useState(false);
     const XacNhanDatXe=()=>{  

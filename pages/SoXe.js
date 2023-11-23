@@ -74,11 +74,15 @@ const SoXe = ({ navigation }) => {
                         <View style={styles.loaiXe}>
                           <Text>{item.IDXe.LoaiXe}</Text>
                         </View>
+                        <View style={styles.TinhTrang}>
+                          <Text>{item.TinhTrang}</Text>
+                        </View>
                       </View>
                         <View style={styles.canGia}>
                             <Text style={styles.tenxe}>Tên: {item.IDKH.TenKH}</Text>
                         </View>
                         <Text style={styles.ngayThue}>Số điện thoại: {item.IDKH.SoDienThoai}</Text>
+                        <Text style={styles.ngayThue}>Tình trạng: {item.TinhTrang}</Text>
                         <Text style={styles.ngayThue}>{moment(new Date(item.NgayBatDau)).format("DD/MM/yyyy")} - {moment(new Date(item.NgayKetThuc)).format("DD/MM/yyyy")}</Text>
                     </View>
                 </View>
@@ -100,6 +104,9 @@ const SoXe = ({ navigation }) => {
                       <View style={styles.bienSoXe}>
                         <Text>{item.IDXe.BienSoXe}</Text> 
                       </View>
+                      <View style={styles.TinhTrang}>
+                          <Text>{item.TinhTrang}</Text>
+                        </View>
                       <View style={styles.loaiXe}>
                         <Text>{item.IDXe.LoaiXe}</Text>
                       </View>
@@ -184,6 +191,16 @@ const styles = StyleSheet.create({
     opacity:0.8,
     top:0,
     right:0,
+  },
+  TinhTrang:{
+    position:'absolute',
+    backgroundColor:"#fff",
+    margin:5,
+    padding:5,
+    borderRadius:5,
+    opacity:0.8,
+    left:0,
+    bottom:0,
   },
   loaiXe:{
     position:'absolute',

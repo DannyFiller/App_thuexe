@@ -37,8 +37,10 @@ export default ThongTinDangNhap=({navigation})=>{
 
       const fetchData =async()=>{
         try {
-          const response = await axios.get('https://api-thue-xe-5fum.vercel.app/TaiKhoan/GetTKKH/'+user.emailAddresses);
-          setData(response.data);
+          if(isSignedIn){
+            const response = await axios.get('https://api-thue-xe-5fum.vercel.app/TaiKhoan/GetTKKH/'+user.emailAddresses);
+            setData(response.data);
+          }
         } catch (error) {
           console.error(error);
         }
