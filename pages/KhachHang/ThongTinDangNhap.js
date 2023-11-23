@@ -41,6 +41,8 @@ export default ThongTinDangNhap=({navigation})=>{
             const response = await axios.get('https://api-thue-xe-5fum.vercel.app/TaiKhoan/GetTKKH/'+user.emailAddresses);
             setData(response.data);
 
+          }else{
+            console.log("ko co du lieu")
           }
         } catch (error) {
           console.error(error);
