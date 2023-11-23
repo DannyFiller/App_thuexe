@@ -9,32 +9,36 @@ import { firebase } from '../config';
 import { Dropdown } from 'react-native-element-dropdown';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useClerk } from '@clerk/clerk-react';
-
+import { AntDesign } from '@expo/vector-icons';
+import moment from 'moment';
 
 const DatXe = ({navigation}) =>{
 
     //Set date 
-    const [date, setDate] = useState(new Date(1598051730000));
-    const [date1, setDate1] = useState(new Date(1598051730000));
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
+    const [show2,setShow2]=useState(false);
   
     const onChange = (event, selectedDate) => {
-      const currentDate = selectedDate;
-      setShow(false);
-      setDate(currentDate);
-      console.log(date);
-    };
+        setShow(false);
+        if(selectedDate){
+            HandleNgayBatDau(selectedDate);
+        }
 
-  
-    const showMode = (currentMode) => {
-      setShow(true);
-      setMode(currentMode);
-    };
-  
-    const showDatepicker = () => {
-      showMode('date');
-    };
+      };
+      const onChange2 = (event, selectedDate) => {
+        setShow2(false);
+        if(selectedDate){
+            HandleNgayKetThuc(selectedDate);
+        }
+
+      };
+      const showMode = () => {
+        setShow(true);
+      };
+      const showMode2 = () => {
+        setShow2(true);
+      };
   
 
     // dữ liệu cũ
@@ -75,8 +79,8 @@ const DatXe = ({navigation}) =>{
 
     //data theo api
     const [idDDon,setIDDon] = useState('');
-    const [ngayBatDau,setngayBatDau] = useState(null);
-    const [ngayKetThuc,setNgayKetThuc] = useState(null);
+    const [ngayBatDau,setngayBatDau] = useState(new Date());
+    const [ngayKetThuc,setNgayKetThuc] = useState(new Date());
     const [tinhTrang,setTinhTrang] = useState('Chưa xác nhận');
 
     //set data dropdown
@@ -178,18 +182,18 @@ const DatXe = ({navigation}) =>{
 
     // nút trở về
     const troVeHandle = () =>{
-        // navigation.navigate('Tab');
+        navigation.navigate('Tab');
 
-        console.log(date+ " và  " + date1);
-        console.log("ngày bad dau : " + ngayBatDau);
-        console.log("ngay ket thuc : " + ngayKetThuc);
-        if (userid) {
-            // Lấy ID tài khoản của Clerk
-            const clerkId = user.id;
-            console.log(clerkId);
-          } else {
-            console.log('Không có tài khoản người dùng hiện tại');
-          }
+        // console.log(date+ " và  " + date1);
+        // console.log("ngày bad dau : " + ngayBatDau);
+        // console.log("ngay ket thuc : " + ngayKetThuc);
+        // if (userid) {
+        //     // Lấy ID tài khoản của Clerk
+        //     const clerkId = user.id;
+        //     console.log(clerkId);
+        //   } else {
+        //     console.log('Không có tài khoản người dùng hiện tại');
+        //   }
 
     }
 
@@ -205,17 +209,20 @@ const DatXe = ({navigation}) =>{
         });
       }, [navigation]);
 
-      const testData ={
-        IDDon : idDDon,
-        NgayBatDau : ngayBatDau,
-        NgayKetThuc : ngayKetThuc,
-        TinhTrang : tinhTrang,
-        IDXe : chonData,
-        IDKH : chonUser,
-      }
+     
 
     // post dữ liệu lên api
     const DatXeHandle =async() =>{
+        const ngayBD=moment(ngayBatDau).valueOf();
+        const ngayKT=moment(ngayKetThuc).valueOf();
+        const testData ={
+            IDDon : idDDon,
+            NgayBatDau : ngayBD ,
+            NgayKetThuc : ngayKT,
+            TinhTrang : tinhTrang,
+            IDXe : chonData,
+            IDKH : chonUser,
+          }
         axios.post('https://api-thue-xe-5fum.vercel.app/SoXe', testData)
         .then(response => {
           // Xử lý kết quả từ API
@@ -299,17 +306,21 @@ const DatXe = ({navigation}) =>{
                     <TextInput style={styles.tenXeInput} onChangeText={HandleTenXe} value={tenXe}/>
                 </View> */}
                 
-                
-
 
                 <View style={styles.ngayThue}>
                     <Text>Ngày thuê xe</Text>
-                    <TextInput style={styles.ngayThueInput} value={ngayBatDau} onChangeText={HandleNgayBatDau}/>
+                    <View style={styles.dateContainer}>
+                        <TouchableOpacity style={styles.dateBtn} onPress={showMode}><AntDesign name="calendar" size={24} color="black" /></TouchableOpacity>
+                        <TextInput style={styles.Input} value={moment(ngayBatDau).format('DD/MM/yyyy').toString()} />
+                    </View>
                 </View>
 
                 <View style={styles.ngayTra}>
                     <Text>Ngày trả xe</Text>
-                    <TextInput style={styles.ngayTraInput} value={ngayKetThuc} onChangeText={HandleNgayKetThuc}/>
+                    <View style={styles.dateContainer}>
+                        <TouchableOpacity style={styles.dateBtn} onPress={showMode2}><AntDesign name="calendar" size={24} color="black" /></TouchableOpacity>
+                        <TextInput style={styles.Input} value={moment(ngayKetThuc).format('DD/MM/yyyy').toString()} />
+                    </View>
                 </View>
                 
                     
@@ -337,30 +348,54 @@ const DatXe = ({navigation}) =>{
                     <TouchableOpacity onPress={troVeHandle} style={styles.btnTroVe}><Text>Trở về</Text></TouchableOpacity>
                     <TouchableOpacity onPress={DatXeHandle} style={styles.btnDatXe}><Text>Đặt xe</Text></TouchableOpacity>
                     {/* <TouchableOpacity onPress={()=> {}} style={styles.btnDatXe}><Text>Date</Text></TouchableOpacity> */}
-                </View>
+                </View>              
+                    {show&&(
+                        <DateTimePicker
+                        testID="dateTimePicker"
+                        value={ngayBatDau}
+                        mode='date'
+                        display="default"
+                        onChange={onChange}
+                    />)}
+                    {show2&&(
+                        <DateTimePicker
+                        testID="dateTimePicker"
+                        value={ngayKetThuc}
+                        mode='date'
+                        display="default"
+                        onChange={onChange2}
+                    />)}
 
-
-                {/* <Button onPress={showDatepicker} title="Show date picker!" />
-                <Text>selected: {date.toLocaleString()}</Text> */}
-
-                {show && (
-                    <DateTimePicker
-                    testID="dateTimePicker"
-                    value={date}
-                    mode={mode}
-                    is24Hour={true}
-                    onChange={onChange}
-                    />
-                )}        
-
-
-                {/* <Button onPress={showDatepicker} title="Show date 2!" /> */}
+                        
             </View>
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
+    Input:{
+        backgroundColor:'white',
+        width:'100%',
+        borderWidth:1,
+        paddingLeft:40
+    },
+    dateContainer:{
+        display:'flex',
+        flexDirection:'row',
+        position:'relative'
+    },
+    dateBtn:{
+        width:'10%',
+        position:'absolute',
+        zIndex:6,
+        height:'99%',
+        borderWidth:1
+    },
+    inputItem:{
+        width:'100%',
+        marginLeft:65,
+        margin:10,
+    },
     container:{
         justifyContent:'center'
     },

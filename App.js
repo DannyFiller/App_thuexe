@@ -140,8 +140,24 @@ function Tabkh(){
 function TabKHVl(){
   return(
    <BottomTab.Navigator screenOptions={{headerShown:true}}>
-      <BottomTab.Screen name="Xe" component={trangXe}/>
-      <BottomTab.Screen name="Thông tin " component={ThongTinKhachHang}/>
+      <BottomTab.Screen name="Xe" component={trangXe} options={{
+        tabBarIcon:({focused}) =>{
+          return (
+            <View style={{alignItems: 'center',justifyContent:'center'}}>
+              <AntDesign name="car" size={24} color="black" />
+            </View>
+          )
+        }
+      }}/>
+      <BottomTab.Screen name="Thông tin " component={ThongTinKhachHang} options={{
+        tabBarIcon:({focused}) =>{
+          return (
+            <View style={{alignItems: 'center',justifyContent:'center'}}>
+              <Feather name="users" size={24} color="black" />
+            </View>
+          )
+        }
+      }}/>
    </BottomTab.Navigator>
   )
 }

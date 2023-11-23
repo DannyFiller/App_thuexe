@@ -37,10 +37,8 @@ export default ThongTinDangNhap=({navigation})=>{
 
       const fetchData =async()=>{
         try {
-          if(isSignedIn){
-            const response = await axios.get('https://api-thue-xe-5fum.vercel.app/TaiKhoan/GetTKKH/'+user.emailAddresses);
-            setData(response.data);
-          }
+          const response = await axios.get('https://api-thue-xe-5fum.vercel.app/TaiKhoan/GetTKKH/'+user.emailAddresses);
+          setData(response.data);
         } catch (error) {
           console.error(error);
         }
@@ -48,9 +46,6 @@ export default ThongTinDangNhap=({navigation})=>{
 
     return(
         <View>
-            {isSignedIn?(
-                
-                <View>
             {data.map((item,index)=>{
                 return(
                     <View key={index}>
@@ -60,6 +55,7 @@ export default ThongTinDangNhap=({navigation})=>{
                         <Text>{item.IDKH.SoDienThoai}</Text>
                         <Text>{data.NgaySinh}28/02/2003</Text>
                         <Text>{data.DiaChi}18/3 Hoang Dieu</Text>
+                        <Text>{item.IDKH.GioiTinh?(<Text>Nam</Text>):(<Text>Nữ</Text>)}</Text>
                         <Text>{item.IDKH.CCCD}123456</Text>
                     </View>
                 )
@@ -70,16 +66,8 @@ export default ThongTinDangNhap=({navigation})=>{
             <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate("Cap nhat khach hang",{data})}>
                 <Text style={{color:"white"}}>Cập nhật thông tin</Text>
             </TouchableOpacity> 
-            
         </View>
         
-            ):(
-                <View style={styles.container}>
-                    <Text style={styles.title}>Vui lòng đăng nhập</Text>
-                    <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate("Đăng Nhập")}><Text style={{color:'white'}}>Đăng nhập</Text></TouchableOpacity>
-                </View>
-            )}
-        </View>
     )
 }
 const styles = StyleSheet.create({
@@ -92,13 +80,4 @@ const styles = StyleSheet.create({
         justifyContent:"center",
         borderRadius:5,
     },
-    title:{
-        fontSize:30,
-    },
-    container:{
-        display:"flex",
-        justifyContent:'center',
-        alignItems:'center',
-        height:'100%'
-    }
 })

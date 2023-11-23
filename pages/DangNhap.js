@@ -48,7 +48,6 @@ const DangNhap = ({ navigation }) => {
       checkQuyen();
     } catch (err) {
       alert(err.errors[0].message);
-      console.log(Lỗi);
     }
   };
 
