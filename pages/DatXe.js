@@ -60,13 +60,13 @@ const DatXe = ({navigation}) =>{
           headerTitleStyle: {
             fontWeight: 'bold', //Set Header text style
           },
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Tạo Khách Hàng')}
-              style={{marginRight: 10}}>
-              <Text style={{color: 'white',marginRight:10}}>Thêm Khách Hàng</Text>
-            </TouchableOpacity>
-          ),
+        //   headerRight: () => (
+        //     <TouchableOpacity
+        //       onPress={() => navigation.navigate('Tạo Khách Hàng')}
+        //       style={{marginRight: 10}}>
+        //       <Text style={{color: 'white',marginRight:10}}>Thêm Khách Hàng</Text>
+        //     </TouchableOpacity>
+        //   ),
         });
       }, [navigation]);
 

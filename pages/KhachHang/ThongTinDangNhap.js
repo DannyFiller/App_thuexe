@@ -40,7 +40,6 @@ export default ThongTinDangNhap=({navigation})=>{
           if(isSignedIn){
             const response = await axios.get('https://api-thue-xe-5fum.vercel.app/TaiKhoan/GetTKKH/'+user.emailAddresses);
             setData(response.data);
-
           }else{
             console.log("ko co du lieu")
           }
@@ -50,28 +49,40 @@ export default ThongTinDangNhap=({navigation})=>{
       }
 
     return(
-        <View>
-            {data.map((item,index)=>{
-                return(
-                    <View key={index}>
-                        <Text>{item.TenTaiKhoan}</Text>
-                        <Text>{item.MatKhau}</Text>
-                        <Text>{item.IDKH.TenKH}</Text>
-                        <Text>{item.IDKH.SoDienThoai}</Text>
-                        <Text>{data.NgaySinh}28/02/2003</Text>
-                        <Text>{data.DiaChi}18/3 Hoang Dieu</Text>
-                        <Text>{item.IDKH.GioiTinh?(<Text>Nam</Text>):(<Text>Nữ</Text>)}</Text>
-                        <Text>{item.IDKH.CCCD}123456</Text>
-                    </View>
-                )
-            })}
-            <TouchableOpacity style={styles.btn} onPress={handleSignOut}>
-                <Text style={{color:"white"} }>Dang xuat</Text>
-            </TouchableOpacity> 
-            <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate("Cap nhat khach hang",{data})}>
-                <Text style={{color:"white"}}>Cập nhật thông tin</Text>
-            </TouchableOpacity> 
-        </View>
+      <View>
+      {isSignedIn?(
+
+          <View>
+      {data.map((item,index)=>{
+          return(
+              <View key={index}>
+                  <Text>{item.TenTaiKhoan}</Text>
+                  <Text>{item.MatKhau}</Text>
+                  <Text>{item.IDKH.TenKH}</Text>
+                  <Text>{item.IDKH.SoDienThoai}</Text>
+                  <Text>{data.NgaySinh}28/02/2003</Text>
+                  <Text>{data.DiaChi}18/3 Hoang Dieu</Text>
+                  <Text>{item.IDKH.GioiTinh?(<Text>Nam</Text>):(<Text>Nữ</Text>)}</Text>
+                  <Text>{item.IDKH.CCCD}123456</Text>
+              </View>
+          )
+      })}
+      <TouchableOpacity style={styles.btn} onPress={handleSignOut}>
+          <Text style={{color:"white"} }>Dang xuat</Text>
+      </TouchableOpacity> 
+      <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate("Cap nhat khach hang",{data})}>
+          <Text style={{color:"white"}}>Cập nhật thông tin</Text>
+      </TouchableOpacity> 
+
+  </View>
+
+      ):(
+          <View style={styles.container}>
+              <Text style={styles.title}>Vui lòng đăng nhập</Text>
+              <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate("Đăng Nhập")}><Text style={{color:'white'}}>Đăng nhập</Text></TouchableOpacity>
+          </View>
+      )}
+  </View>
         
     )
 }
@@ -85,4 +96,22 @@ const styles = StyleSheet.create({
         justifyContent:"center",
         borderRadius:5,
     },
+    btn:{
+      backgroundColor:'#FF6630',
+      padding:10,
+      marginTop:10,
+      width:100,
+      alignItems:"center",
+      justifyContent:"center",
+      borderRadius:5,
+  },
+  title:{
+      fontSize:30,
+  },
+  container:{
+      display:"flex",
+      justifyContent:'center',
+      alignItems:'center',
+      height:'100%'
+  }
 })

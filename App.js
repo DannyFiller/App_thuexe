@@ -52,7 +52,7 @@ function App () {
               <Stack.Screen name="Thong tin khach hang" component={ThongTinKhachHang} options={{title:'Thông tin',headerShown:true}}/>  
               <Stack.Screen name="Cap nhat khach hang" component={CapNhatThongTinKhachHang} options={{title:'Thông tin',headerShown:true}}/>  
               <Stack.Screen name="Sửa Sổ Đặt Xe" component={SuaSoDatXe} options={{title:'Sửa Sổ Đặt Xe',headerShown:true}}/> 
-              <Stack.Screen name="Tạo Khách Hàng" component={TaoKhachHang} options={{title:'Tạo Khách Hàng',headerShown:true}}/>  
+              {/* <Stack.Screen name="Tạo Khách Hàng" component={TaoKhachHang} options={{title:'Tạo Khách Hàng',headerShown:true}}/>   */}
             </Stack.Navigator>
           </NavigationContainer>
     </ClerkProvider >
@@ -73,7 +73,7 @@ function Tab(){
         }
       }}/>
       {/* <BottomTab.Screen name="Lịch sử" component={LichSuDatXe}/> */}
-      <BottomTab.Screen name="Báo Giá" component={BaoGia} options={{
+      {/* <BottomTab.Screen name="Báo Giá" component={BaoGia} options={{
         tabBarIcon:({focused}) =>{
           return (
             <View style={{alignItems: 'center',justifyContent:'center'}}>
@@ -81,7 +81,7 @@ function Tab(){
             </View>
           )
         }
-      }}/>
+      }}/> */}
       <BottomTab.Screen name="Sổ xe " component={SoXe} options={{
         tabBarIcon:({focused}) =>{
           return (

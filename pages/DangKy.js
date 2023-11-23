@@ -3,7 +3,10 @@ import { Text, TextInput, TouchableOpacity, View ,StyleSheet} from "react-native
 import { useSignUp } from "@clerk/clerk-expo";
 import { setStatusBarBackgroundColor } from "expo-status-bar";
 import axios from "axios";
- 
+import { AntDesign } from '@expo/vector-icons';
+import moment from 'moment';
+import DateTimePicker from '@react-native-community/datetimepicker';
+
 const DangKy = ({navigation}) => {
   const { isLoaded, signUp, setActive } = useSignUp();
  
@@ -18,11 +21,24 @@ const DangKy = ({navigation}) => {
 
   //tạo khách hàng
   const [TenKH,setTenKH]=React.useState();
-  const [NgaySinh,setNgaySinh]=React.useState();
+  const [NgaySinh,setNgaySinh]=React.useState(new Date());
   const [DiaChi,setDiaChi]=React.useState();
   const [SoDienThoai,setSDT]=React.useState();
   const [BangLai,setBL]=React.useState();
   const [CMND,setCMND] = React.useState();
+
+  //Chọn ngày
+  const [mode, setMode] = React.useState('date');
+  const [show, setShow] = React.useState(false);
+  const onChange = (event, selectedDate) => {
+    setShow(false);
+    if(selectedDate){
+        setNgaySinh(selectedDate);
+    }
+  };
+  const showMode = () => {
+    setShow(true);
+  };
  
   // start the sign up process.
   const onSignUpPress = async () => {
@@ -58,7 +74,7 @@ const DangKy = ({navigation}) => {
       });
       await PostKhachHang();
       await setActive({ session: completeSignUp.createdSessionId });
-      navigation.navigate('Tab');
+      navigation.navigate('Tabkh');
     } catch (err) {
       console.error(JSON.stringify(err, null, 2));
     }
@@ -80,16 +96,19 @@ const DangKy = ({navigation}) => {
   }
 
 
-  const postData={
-    // IDKH: IDK  H,
-    TenKH:TenKH,
-    NgaySinh:NgaySinh,
-    DiaChi:DiaChi,
-    SoDienThoai:SoDienThoai,
-    CMND:CMND,
-    BangLai:BangLai,
-  }
+  
+
   const PostKhachHang=async()=>{  
+    const ngay =moment(NgaySinh).valueOf();
+    const postData={
+      // IDKH: IDK  H,
+      TenKH:TenKH,
+      NgaySinh:ngay,
+      DiaChi:DiaChi,
+      SoDienThoai:SoDienThoai,
+      CMND:CMND,
+      BangLai:BangLai,
+    }
     axios.post('https://api-thue-xe-5fum.vercel.app/KhachHang', postData)
       .then(response => {
         // Xử lý kết quả từ API
@@ -155,15 +174,19 @@ const DangKy = ({navigation}) => {
               onChangeText={(TenKH) => setTenKH(TenKH)}
             />
           </View>
-
-          <View>
-            <TextInput style={styles.input}
-              value={NgaySinh}
-              autoCapitalize="none"
-              placeholder="Ngày Sinh"
-              onChangeText={(NgaySinh) => setNgaySinh(NgaySinh)}
-            />
+          <Text style={{marginHorizontal:10}}>Ngày sinh</Text>
+          <View style={styles.dateContainer}>
+              <TouchableOpacity style={styles.dateBtn} onPress={showMode}><AntDesign name="calendar" size={24} color="black" /></TouchableOpacity>
+              <TextInput style={styles.Input} value={moment(NgaySinh).format('DD/MM/yyyy').toString()} />
           </View>
+            {show&&(
+                <DateTimePicker
+                testID="dateTimePicker"
+                value={NgaySinh}
+                mode='date'
+                display="default"
+                onChange={onChange}
+            />)}
 
           <View>
             <TextInput style={styles.input}
@@ -226,6 +249,31 @@ const DangKy = ({navigation}) => {
 }
 
 const styles = StyleSheet.create({
+  Input:{
+    backgroundColor:'white',
+    width:'100%',
+    borderWidth:1,
+    paddingLeft:40,
+    
+  },
+  dateContainer:{
+      display:'flex',
+      flexDirection:'row',
+      position:'relative',
+      marginHorizontal:10
+  },
+  dateBtn:{
+      width:'10%',
+      position:'absolute',
+      zIndex:6,
+      height:'99%',
+      borderWidth:1
+  },
+  inputItem:{
+      width:'100%',
+      marginLeft:65,
+      margin:10,
+  },
   container:{
     flex:1,
     justifyContent: 'center',

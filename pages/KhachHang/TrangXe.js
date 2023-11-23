@@ -16,13 +16,6 @@ const DanhSachXe = ({navigation }) => {
       headerTitleStyle: {
         fontWeight: 'bold', //Set Header text style
       },
-      headerRight: () => (
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Đặt Xe')}
-          style={{marginRight: 10}}>
-          <Text style={{color: 'white',marginRight:10}}>Đặt Xe</Text>
-        </TouchableOpacity>
-      ),
     });
   }, [navigation]);
 
@@ -41,7 +34,7 @@ const DanhSachXe = ({navigation }) => {
   ]);
 
   useEffect(() => {
-    axios.get('https://api-thue-xe-5fum.vercel.app/Xe')
+    axios.get('https://api-thue-xe.vercel.app/Xe')
       .then(response => setData(response.data))
       .catch(error => console.log(error));
   }, []);
@@ -60,7 +53,7 @@ const DanhSachXe = ({navigation }) => {
                     <View style={styles.coverAnh}>       
                       <Image style={styles.anh} source={{uri: item.HinhAnh}}/>
                       <View style={styles.maSo}>
-                        <Text>23D11</Text>
+                        <Text>{item.IDXe}</Text>
                       </View>
                       <View style={styles.bienSoXe}>
                         <Text>{item.BienSoXe}</Text> 
@@ -89,7 +82,7 @@ const DanhSachXe = ({navigation }) => {
                   <View style={styles.coverAnh}>       
                     <Image style={styles.anh} source={{uri:item.HinhAnh}}/>
                     <View style={styles.maSo}>
-                      <Text>23D11</Text>
+                      <Text>{item.IDXe}</Text>
                     </View>
                     <View style={styles.bienSoXe}>
                       <Text>{item.BienSoXe}</Text> 

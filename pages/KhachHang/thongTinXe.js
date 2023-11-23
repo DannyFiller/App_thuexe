@@ -128,8 +128,8 @@ const ThongTinXe=({route,navigation})=>{
                             <Text>{i.TenXe}</Text>
                         </View>
                         <View style={styles.row_thongtin}>
-                            <Text style={styles.label}>Loại Xe : </Text>
-                            <Text>{i.LoaiXe}</Text>
+                            <Text style={styles.label}>Số chỗ : </Text>
+                            <Text>{i.SoCho}</Text>
                         </View>
                         <View style={styles.row_thongtin}>
                             <Text style={styles.label}>Giá thuê 1 ngày : </Text>

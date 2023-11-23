@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Image, View, Text, ScrollView, TextInput, TouchableOpacity, ActivityIndicator, KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
-import { firebase } from '../config';
+import firebase from "firebase/compat";
 
 export default CapNhatThongTinKhachHang = ({ navigation }) => {
   const [TenKH, setTenKH] = useState();
@@ -48,7 +48,7 @@ export default CapNhatThongTinKhachHang = ({ navigation }) => {
       quality: 1,
     });
 
-    if (!result.cancelled) {
+    if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
   }
