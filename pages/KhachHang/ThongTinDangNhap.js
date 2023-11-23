@@ -40,6 +40,7 @@ export default ThongTinDangNhap=({navigation})=>{
           if(isSignedIn){
             const response = await axios.get('https://api-thue-xe-5fum.vercel.app/TaiKhoan/GetTKKH/'+user.emailAddresses);
             setData(response.data);
+
           }
         } catch (error) {
           console.error(error);

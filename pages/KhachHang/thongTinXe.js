@@ -85,7 +85,7 @@ const ThongTinXe=({route,navigation})=>{
             const testData ={
                 NgayBatDau : ngayBD,
                 NgayKetThuc : ngayKT,
-                TinhTrang : 'Chưa xác nhận',
+                TinhTrang : 'Đặt trước',
                 IDXe : item[0]._id,
                 IDKH :account.data[0].IDKH._id,
               }

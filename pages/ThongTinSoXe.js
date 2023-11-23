@@ -30,10 +30,13 @@ const ThongTinSoXe=({route,navigation})=>{
     const dataXe={
         TinhTrang: 'Còn trống'
     }
-
+    const dataSoXe={
+        TinhTrang: 'Hoàn thành'
+    }
     const XacNhanTraXe=()=>{
         setLoading(true);
         axios.put('https://api-thue-xe-5fum.vercel.app/Xe/'+item[0].IDXe._id, dataXe)
+        axios.put('https://api-thue-xe-5fum.vercel.app/SoXe/'+item[0]._id, dataXe)
         .then(response => {
             // Xử lý kết quả từ API
             console.log(response.data);
