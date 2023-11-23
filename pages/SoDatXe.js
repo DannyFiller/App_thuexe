@@ -75,8 +75,11 @@ const SoDatXe = ({ navigation }) => {
                           <Text>{item.IDXe.BienSoXe}</Text> 
                         </View>
                         <View style={styles.loaiXe}>
-                          <Text>{item.IDXe.LoaiXe}</Text>
+                          <Text>{item.IDXe.SoCho}</Text>
                         </View>
+                        <View style={styles.TinhTrang}>
+                        <Text>{item.TinhTrang}</Text>
+                      </View>
                       </View>
                         <View style={styles.canGia}>
                             <Text style={styles.tenxe}>Tên: {item.IDKH.TenKH}</Text>     
@@ -104,9 +107,12 @@ const SoDatXe = ({ navigation }) => {
                         <Text>{item.IDXe.BienSoXe}</Text> 
                       </View>
                       <View style={styles.loaiXe}>
-                        <Text>{item.IDXe.LoaiXe}</Text>
+                        <Text>{item.IDXe.SoCho}</Text>
                       </View>
                     </View>
+                    <View style={styles.TinhTrang}>
+                        <Text>{item.TinhTrang}</Text>
+                      </View>
                       <View style={styles.canGia}>
                           <Text style={styles.tenxe}>Tên: {item.IDKH.TenKH}</Text>
                       </View>
