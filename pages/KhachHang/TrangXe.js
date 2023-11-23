@@ -34,7 +34,7 @@ const DanhSachXe = ({navigation }) => {
   ]);
 
   useEffect(() => {
-    axios.get('https://api-thue-xe.vercel.app/Xe')
+    axios.get('https://api-thue-xe-5fum.vercel.app/Xe')
       .then(response => setData(response.data))
       .catch(error => console.log(error));
   }, []);

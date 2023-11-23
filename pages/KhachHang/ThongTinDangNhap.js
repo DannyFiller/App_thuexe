@@ -60,9 +60,9 @@ export default ThongTinDangNhap=({navigation})=>{
                   <Text>{item.MatKhau}</Text>
                   <Text>{item.IDKH.TenKH}</Text>
                   <Text>{item.IDKH.SoDienThoai}</Text>
-                  <Text>{data.NgaySinh}28/02/2003</Text>
-                  <Text>{data.DiaChi}18/3 Hoang Dieu</Text>
-                  <Text>{item.IDKH.GioiTinh?(<Text>Nam</Text>):(<Text>Nữ</Text>)}</Text>
+                  <Text>{moment(item.IDKH.NgaySinh).format("DD/MM/YYYY")}</Text>
+                  <Text>{item.IDKH.DiaChi}</Text>
+                  {/* <Text>{item.IDKH.GioiTinh?(<Text>Nam</Text>):(<Text>Nữ</Text>)}</Text> */}
                   <Text>{item.IDKH.CCCD}123456</Text>
               </View>
           )
