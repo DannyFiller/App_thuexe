@@ -4,6 +4,8 @@ import { Image,View, Text, Button,FlatList,StyleSheet, ScrollView, TextInput,Tou
 import {useClerk} from '@clerk/clerk-expo';
 import axios from 'axios';
 import { Dropdown } from 'react-native-element-dropdown';
+import moment from 'moment';
+
 const SoXe = ({ navigation }) => {
   const { isLoaded, isSignedIn, user } = useUser();
   const [selectedValue, setSelectedValue] = useState(null);
@@ -89,8 +91,8 @@ const SoXe = ({ navigation }) => {
                                       <Text style={styles.tenxe}>Mã sổ: {item._id}</Text>
                                   </View>
                                   <Text style={styles.ngayThue}>Trạng thái: {item.TinhTrang}</Text>
-                                <Text style={styles.ngayThue}>27/10/2022 -10/11/2022</Text>
-                              </View>
+                                  <Text style={styles.ngayThue}>{moment(new Date(item.NgayBatDau)).format("DD/MM/yyyy")} - {moment(new Date(item.NgayKetThuc)).format("DD/MM/yyyy")}</Text>
+                    </View>
                           </View>
                           </View>
                           )
@@ -118,8 +120,8 @@ const SoXe = ({ navigation }) => {
                                       <Text style={styles.tenxe}>Mã sổ: {item._id}</Text>
                                   </View>
                                   <Text style={styles.ngayThue}>Trạng thái: {item.TinhTrang}</Text>
-                                <Text style={styles.ngayThue}>27/10/2022 -10/11/2022</Text>
-                              </View>
+                                  <Text style={styles.ngayThue}>{moment(new Date(item.NgayBatDau)).format("DD/MM/yyyy")} - {moment(new Date(item.NgayKetThuc)).format("DD/MM/yyyy")}</Text>
+                          </View>
                           </View>
                           </View>
                         )
@@ -152,8 +154,8 @@ const SoXe = ({ navigation }) => {
                                   <Text style={styles.tenxe}>Mã sổ: {item._id}</Text>
                               </View>
                               <Text style={styles.ngayThue}>Trạng thái: {item.TinhTrang}</Text>
-                            <Text style={styles.ngayThue}>27/10/2022 -10/11/2022</Text>
-                          </View>
+                              <Text style={styles.ngayThue}>{moment(new Date(item.NgayBatDau)).format("DD/MM/yyyy")} - {moment(new Date(item.NgayKetThuc)).format("DD/MM/yyyy")}</Text>
+                    </View>
                       </View>
                       </View>
                       )
@@ -181,8 +183,8 @@ const SoXe = ({ navigation }) => {
                                 <Text style={styles.tenxe}>Mã sổ: {item._id}</Text>
                             </View>
                             <Text style={styles.ngayThue}>Trạng thái: {item.TinhTrang}</Text>
-                          <Text style={styles.ngayThue}>27/10/2022 -10/11/2022</Text>
-                        </View>
+                            <Text style={styles.ngayThue}>{moment(new Date(item.NgayBatDau)).format("DD/MM/yyyy")} - {moment(new Date(item.NgayKetThuc)).format("DD/MM/yyyy")}</Text>
+                    </View>
                     </View>
                     </View>
                     )

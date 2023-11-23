@@ -73,7 +73,7 @@ const DanhSachXe = ({navigation }) => {
                           <Text style={styles.tenxe}>{item.TenXe}</Text>
                           <Text style={styles.giaThue}>{item.giaThue}</Text>
                       </View>
-                    <Text style={styles.ngayThue}>27/10/2022 -10/11/2022</Text>
+                    <Text style={styles.ngayThue}>Giá thuê 1 ngày{item.SoTien}</Text>
                   </View>
               </View>
               </TouchableOpacity>
@@ -102,7 +102,7 @@ const DanhSachXe = ({navigation }) => {
                         <Text style={styles.tenxe}>{item.TenXe}</Text>
                         <Text style={styles.giaThue}>{item.giaThue}</Text>
                     </View>
-                  <Text style={styles.ngayThue}>27/10/2022 -10/11/2022</Text>
+                    <Text style={styles.ngayThue}>Giá thuê 1 ngày: {item.SoTien}</Text>
                 </View>
             </View>
             </TouchableOpacity>
