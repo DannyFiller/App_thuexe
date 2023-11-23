@@ -25,7 +25,7 @@ const DangNhap = ({ navigation }) => {
       if(req1.data!=""){
         navigation.navigate('Tab');
       }
-      console.log("data1"+req1.data+"data2"+req.data);
+      
     }catch(err){
       console.log(err);
     }
