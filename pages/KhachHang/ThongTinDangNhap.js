@@ -51,7 +51,7 @@ export default ThongTinDangNhap=({navigation})=>{
 
     return(
         <View>
-            {isSignedIn?(
+            {isSignedIn? (
                 
                 <View>
             {data.map((item,index)=>{
